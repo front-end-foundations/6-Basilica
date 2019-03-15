@@ -7,6 +7,62 @@ html {
   /* --breakpoint: 640px; */
 }
 
+article,
+aside {
+  padding: 1rem;
+}
+
+footer {
+  clear: both;
+  background-color: var(--basil-green);
+  padding: 1rem;
+  border-radius: 0 0 4px 4px;
+  margin-bottom: 2rem;
+}
+
+/* @media only screen and (min-width: 640px) {
+  .content {
+    display: flex;
+  }
+  article {
+    flex: 1 0 60%;
+  }
+  aside {
+    background: #f5faef;
+    box-shadow: -4px 0px 4px #ddd;
+  }
+} */
+@media only screen and (min-width: 640px) {
+  .content {
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: 20% 20% 20% 20% 20%;
+        grid-template-columns: 20% 20% 20% 20% 20%;
+    -ms-grid-rows: 20% 20% 20% 20% 20%;
+        grid-template-rows: 20% 20% 20% 20% 20%;
+    grid-gap: 20px;
+  }
+  article {
+    -ms-grid-row: 1;
+        grid-row-start: 1;
+    -ms-grid-column: 1;
+        grid-column-start: 1;
+    -ms-grid-column-span: 3;
+        grid-column-end: span 3;
+  }
+  aside {
+    -ms-grid-row: 1;
+        grid-row-start: 1;
+    -ms-grid-column: 4;
+        grid-column-start: 4;
+    -ms-grid-column-span: 2;
+        grid-column-end: span 2;
+    background: #f5faef;
+    -webkit-box-shadow: -4px 0px 4px #ddd;
+            box-shadow: -4px 0px 4px #ddd;
+  }
+}
+
 ::-moz-selection {
   background: var(--basil-green);
   color: #fff;
@@ -207,65 +263,5 @@ nav a {
 .nav-cookit a:hover {
   background: -webkit-gradient(linear, left top, left bottom, color-stop(1%, #344e8b), to(#6f89c7));
   background: linear-gradient(to bottom, #344e8b 1%, #6f89c7 100%);
-}
-
-.content {
-  /* background: url(img/html.png) repeat-y 50% 50%; */
-}
-
-article,
-aside {
-  padding: 1rem;
-}
-
-footer {
-  clear: both;
-  background-color: var(--basil-green);
-  padding: 1rem;
-  border-radius: 0 0 4px 4px;
-  margin-bottom: 2rem;
-}
-
-/* @media only screen and (min-width: 640px) {
-  .content {
-    display: flex;
-  }
-  article {
-    flex: 1 0 60%;
-  }
-  aside {
-    background: #f5faef;
-    box-shadow: -4px 0px 4px #ddd;
-  }
-} */
-@media only screen and (min-width: 640px) {
-  .content {
-    display: -ms-grid;
-    display: grid;
-    -ms-grid-columns: 20% 20% 20% 20% 20%;
-        grid-template-columns: 20% 20% 20% 20% 20%;
-    -ms-grid-rows: 20% 20% 20% 20% 20%;
-        grid-template-rows: 20% 20% 20% 20% 20%;
-    grid-gap: 20px;
-  }
-  article {
-    -ms-grid-row: 1;
-        grid-row-start: 1;
-    -ms-grid-column: 1;
-        grid-column-start: 1;
-    -ms-grid-column-span: 3;
-        grid-column-end: span 3;
-  }
-  aside {
-    -ms-grid-row: 1;
-        grid-row-start: 1;
-    -ms-grid-column: 4;
-        grid-column-start: 4;
-    -ms-grid-column-span: 2;
-        grid-column-end: span 2;
-    background: #f5faef;
-    -webkit-box-shadow: -4px 0px 4px #ddd;
-            box-shadow: -4px 0px 4px #ddd;
-  }
 }
 /*# sourceMappingURL=styles.css.map */
