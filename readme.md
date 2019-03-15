@@ -133,9 +133,9 @@ Setting up SASS includes creating and defining an input folder for scss and an o
 * { color red !important }
 ```
 
-and then viewing the output.
+And then viewing the output.
 
-Note the auto prefixing. See also git [postcss-preset-env](https://github.com/csstools/postcss-preset-env)
+Note the output and auto prefixing. See also git [postcss-preset-env](https://github.com/csstools/postcss-preset-env)
 
 ### Node-sass
 
@@ -243,6 +243,8 @@ Note the use of an ampersand for the hover pseudo selector.
 
 Allow you to create separate function or feature specific style sheets using [imports](https://sass-lang.com/guide#topic-4) and helps maintain a large code base.
 
+Examples [Bootstrap](https://getbootstrap.com) and its [SASS roots](https://github.com/twbs/bootstrap-sass)
+
 * Create `scss/imports`
 * Cut and copy the newly nested code for header into a new document `scss/imports/_header.scss`
 * import it into `styles.scss` by adding `@import "imports/header";` to the top of that file
@@ -329,9 +331,6 @@ $gray-050: rgba(51,51,51,0.50);
 $gray-040: rgba(51,51,51,0.40);
 $gray-010: rgba(51,51,51,0.10);
 ```
-
-
-
 
 ## Review: CSS Grid
 
