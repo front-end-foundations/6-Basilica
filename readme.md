@@ -1,17 +1,10 @@
 # VI - Basilica! JavaScript and SASS
 
-rev 102318
-
 ## Homework
-
-* Install [VSCode](https://code.visualstudio.com/) on your computer
-* Create a free account on [Github](https://github.com/)
-* Edit the CSS for the Basilica site so the header has no white space on top and no rounded corners on a _small screen only_ using *SASS*. 
+ 
 * Change the popover behavior so it displays a different message for each of the three navigation buttons
 
 ## Command Line
-
-<!-- * Note: Windows users might wish to check out [CMDER](http://cmder.net). Most of the commands below are different on Windows or have alternatives so let's use the Git Bash terminal (installed along with Git). -->
 
 Navigate to today's project folder. 
 
@@ -27,34 +20,12 @@ $ ls -al  // flags expand the command
 $ pwd // print working directory
 ```
 
-## Git
-
-Initialize a new local repository, add all the files to it, and do an initial commit:
-
-```sh
-$ git init
-$ git add .
-$ git commit -m 'Initial commit'
-```
-
-Create a new branch and check it out:
-
-```sh
-$ git branch <branchname>
-$ git checkout <branchname>
-$ git status
-```
-
 ## Node Package Manager
 
-<!-- [Node Package Manager](https://www.npmjs.com) is an essential part of the web design and development ecosystem. -->
-
-`npm init` and `npm install`:
+Review `npm init` and `npm install`:
 
 ```sh
-$ npm init
-$ touch .gitignore // edit to add node_modules
-$ npm install browser-sync --save-dev
+$ npm install 
 ```
 
 Note:
@@ -66,9 +37,9 @@ Note:
 
 `npm init` creates `package.json`.
 
-`touch .gitignore` creates the `.gitignore` file (you could do this in the editor as well)
+`touch .gitignore` created the `.gitignore` file (you could do this in the editor as well)
 
-`npm install browser-sync --save-dev` installs [Browser Sync](https://www.browsersync.io) and creates the `node_modules` folder.
+`npm install browser-sync --save-dev` installed [Browser Sync](https://www.browsersync.io) and created the `node_modules` folder.
 
 ### Editing package.json
 
@@ -76,18 +47,13 @@ We will again be using [Browser Sync](https://www.browsersync.io) as our sample 
 
 * Browser Sync [Command Line (CLI) documentation](https://www.browsersync.io/docs/command-line)
 
-Create the NPM script using the Browser Sync command line documentation:
+Note the NPM script using the Browser Sync command line documentation:
 
 ```js
   "scripts": {
-    "start": "browser-sync start --server 'app' --files 'app'"
+    "startmac": "browser-sync start --directory --server 'app' --files 'app' --browser chrome",
+    "startpc": "browser-sync start --directory --server \"app\" --files \"app\" --browser chrome.exe"
   },
-```
-
-Or, on a windows PC:
-
-```js
-"start": "browser-sync start --server \"app\" --files \"app\""
 ```
 
 And run the process:
@@ -111,6 +77,259 @@ And `--browser` options (note the PC browser):
 "startmac": "browser-sync start --browser 'google chrome' --server 'app' --files 'app'"
 "startpc": "browser-sync start --browser \"chrome.exe\" --server \"app\" --files \"app\""
 ```
+
+## Git
+
+Initialize a new local repository, add all the files to it, and do an initial commit:
+
+```sh
+$ git init
+$ git add .
+$ git commit -m 'Initial commit'
+```
+
+Create a new branch and check it out:
+
+```sh
+$ git branch <branchname>
+$ git checkout <branchname>
+$ git status
+```
+
+## SASS
+
+[Syntactically Awesome Style Sheets](https://sass-lang.com) - SASS [adds features](http://sass-lang.com/guide) to css.
+
+You can use an app, an NPM package, or an editor Extension (e.g. [VS Code Live SASS Compiler](https://github.com/ritwickdey/vscode-live-sass-compiler)) to process SASS.
+
+Apps that allow you to use SASS include:
+
+* [Koala](http://koala-app.com)
+* [Scout app](http://scout-app.io/)
+
+Setting up SASS includes creating and defining an input folder for scss and an output folder for css.
+
+```
+{
+  "liveSassCompile.settings.formats": [
+    {
+      "savePath": "/app/css/",
+      "format": "expanded"
+    }
+  ],
+  "liveSassCompile.settings.excludeList": [
+    "**/node_modules/**",
+    ".vscode/**",
+    "**/other/**"
+  ]
+}
+```
+
+* Create a `scss` directory at the _top level_ of the project folder
+* Save or copy `styles.css` into it as `styles.scss` - note the `.scss` suffix 
+* Run the SASS processor and test your setup by adding something like the following to the scss file:
+
+```css
+* { color red !important }
+```
+
+and then viewing the output.
+
+### Node-sass
+
+You can use NPM to install [node-sass](https://www.npmjs.com/package/node-sass) and use this via an npm script.
+
+Install node-sass via NPM as a developmental dependency.
+
+`npm install node-sass --save-dev`
+
+Add a script for processing:
+
+```js
+  "scripts": {
+    ...
+    "startSass": "node-sass  --watch scss/styles.scss --output app/css/styles.css"
+  },
+```
+
+Node-sass CLI [documentation](https://github.com/sass/node-sass#command-line-interface)
+
+Test it by running `$ npm run startSass` and add the following to the `scss` file:
+
+```css
+* { color red !important }
+```
+
+We need to run both scripts at the same time.
+
+```sh
+$ npm install concurrently --save-dev
+```
+
+```js
+"scripts": {
+  ...
+  "startSass": "node-sass  --watch scss/styles.scss --output app/css/",
+  "boom!": "concurrently \"npm run start\" \"npm run startSass\" "
+},
+```
+
+#### SASS Error Checking
+
+Intentionally create an error by removing the semi-colon from the first line in the scss file.
+
+#### SASS variables
+
+```sass
+$basil-green: #88a308;
+$breakpoint-med: 640px;
+```
+
+#### SASS nesting 
+
+Sass will let you nest your CSS selectors in a way that follows the same visual hierarchy of your HTML. Be aware that overly nested rules will result in over-qualified CSS that could prove hard to maintain and is generally considered bad practice.
+
+One of the best things about nesting in SASS is how it allows you to simplify media queries and keep them aligned with the selector.
+
+```css
+header {
+  position: relative;
+  height: 120px;
+  background: var(--basil-green);
+  border-radius: 8px 8px 0px 0px;
+  h1 {
+    background: url(img/basil.png) no-repeat;
+    font-family: FuturaStdLight, sans-serif;
+    font-weight: normal;
+    color: #fff;
+    font-size: 5rem;
+    @media (min-width: 640px){
+      padding-left: 240px;
+      padding-top: 90px;
+      transform: translate(-100px, -80px);
+      background-position: top left;
+    }
+  }
+  .beta {
+    background: url('img/burst.svg') no-repeat;
+    color: #fff;
+    font-size: 1.5rem;
+    position: absolute;
+    top: -20px;
+    right: 10px;
+    width: 85px;
+    height: 85px;
+    line-height: 85px;
+    text-align: center;
+    text-transform: uppercase;
+    transform: rotate(20deg);
+    transition: all 1s ease;
+    &:hover {
+      transform: rotate(0deg) scale(1.2);
+    }
+  }
+}
+```
+
+Note the use of an ampersand for the hover pseudo selector.
+
+#### SASS Comments
+
+`//` SASS allows you to use JavaScript style comments. These comments do not get compiled into the css file. Traditional CSS comments ( `/* ... */` ) do.
+
+#### SASS Partials and Imports
+
+Allow you to create separate function or feature specific style sheets using [imports](https://sass-lang.com/guide#topic-4) and helps maintain a large code base.
+
+* Create `scss/imports`
+* Cut and copy the newly nested code for header into a new document `scss/imports/_header.scss`
+* import it into `styles.scss` by adding `@import "imports/header";` to the top of that file
+
+This also requires a slight alteration to the npm script for SASS. Quit the SASS processing and change it to read:
+
+`"startSass": "node-sass  --watch scss --output app/css/"`
+
+#### SASS Variables
+
+Variables for breakpoints and colors.
+
+Example:
+
+```css
+$break-five: 81.25em;
+// 1300px
+$break-four: 71.25em;
+// 1140
+$break-three: 61.25em;
+// 980
+$break-two: 46.25em;
+// 760
+$break-one: 22.5em;
+// 360
+
+//ADDITIONAL CONVERSIONS
+// 67.5rem    1080px
+// 1.125rem   18px
+// 1rem       16px
+// 0.875rem   14px
+// .75rem     12px
+$radius: .25rem;
+
+$fonts: 'Source Sans Pro', Helvetica, Clean, sans-serif;
+
+$link: #007eb6;
+$cyan: #00aeef;
+$cyan10: #e2f4fd;
+$blue100: #003366;
+$blue50: #5997b1;
+$webdarkcyan: #006991;
+$specialblue: #007eb6;
+$text: #444;
+$caption: #808285;
+$borders: #dcdcdc;
+$borders-callout: #820064;
+$lightgray: #F2F2F1;
+$gray10: #ebeced;
+$gray25: #d0d2d3;
+$gray50: #abacad;
+$gray75: #808285;
+$gray100: #585858;
+$fushia100: #820064;
+$green100: #339548;
+$red100: #cc3333;
+
+
+$blk-100: rgba(0,0,0,1);
+$blk-095: rgba(0,0,0,0.95);
+$blk-090: rgba(0,0,0,0.90);
+$blk-085: rgba(0,0,0,0.85);
+$blk-080: rgba(0,0,0,0.80);
+$blk-075: rgba(0,0,0,0.75);
+$blk-070: rgba(0,0,0,0.70);
+$blk-065: rgba(0,0,0,0.65);
+$blk-060: rgba(0,0,0,0.60);
+$blk-055: rgba(0,0,0,0.55);
+$blk-050: rgba(0,0,0,0.50);
+$blk-040: rgba(0,0,0,0.40);
+$blk-010: rgba(0,0,0,0.10);
+
+$gray-100: rgba(51,51,51,1);
+$gray-095: rgba(51,51,51,0.95);
+$gray-090: rgba(51,51,51,0.90);
+$gray-085: rgba(51,51,51,0.85);
+$gray-080: rgba(51,51,51,0.80);
+$gray-075: rgba(51,51,51,0.75);
+$gray-070: rgba(51,51,51,0.70);
+$gray-065: rgba(51,51,51,0.65);
+$gray-060: rgba(51,51,51,0.60);
+$gray-055: rgba(51,51,51,0.55);
+$gray-050: rgba(51,51,51,0.50);
+$gray-040: rgba(51,51,51,0.40);
+$gray-010: rgba(51,51,51,0.10);
+```
+
+
+
 
 ## Review: CSS Grid
 
@@ -853,220 +1072,3 @@ function makePopover(content) {
 }
 ```
 
-## SASS
-
-[Syntactically Awesome Style Sheets](https://sass-lang.com) - SASS [adds features](http://sass-lang.com/guide) to css.
-
-You can use a dowloaded app to process SASS or use an NPM package.
-
-Apps that allow you to use SASS include:
-
-* [Koala](http://koala-app.com)
-* [Scout app](http://scout-app.io/)
-
-(Note - on OSX you may need to right click and choose open rather than double click in order to run these.)
-
-Setting up SASS always includes creating and defining an input folder for scss and an output folder for css.
-
-* Create a `scss` directory at the _top level_ of the project folder
-* Save or copy `styles.css` into it as `styles.scss` - note the `.scss` suffix 
-* Run the SASS processor and test your setup by adding something like the following to the scss file:
-
-```css
-* { color red !important }
-```
-
-and then viewing the output.
-
-### Node-sass
-
-You can use NPM to install [node-sass](https://www.npmjs.com/package/node-sass) and use this via an npm script.
-
-Install node-sass via NPM as a developmental dependency.
-
-`npm install node-sass --save-dev`
-
-Add a script for processing:
-
-```js
-  "scripts": {
-    ...
-    "startSass": "node-sass  --watch scss/styles.scss --output app/css/styles.css"
-  },
-```
-
-Node-sass CLI [documentation](https://github.com/sass/node-sass#command-line-interface)
-
-Test it by running `$ npm run startSass` and add the following to the `scss` file:
-
-```css
-* { color red !important }
-```
-
-We need to run both scripts at the same time.
-
-```sh
-$ npm install concurrently --save-dev
-```
-
-```js
-"scripts": {
-  ...
-  "startSass": "node-sass  --watch scss/styles.scss --output app/css/",
-  "boom!": "concurrently \"npm run start\" \"npm run startSass\" "
-},
-```
-
-#### SASS Error Checking
-
-Intentionally create an error by removing the semi-colon from the first line in the scss file.
-
-#### SASS variables
-
-```sass
-$basil-green: #88a308;
-$breakpoint-med: 640px;
-```
-
-#### SASS nesting 
-
-Sass will let you nest your CSS selectors in a way that follows the same visual hierarchy of your HTML. Be aware that overly nested rules will result in over-qualified CSS that could prove hard to maintain and is generally considered bad practice.
-
-One of the best things about nesting in SASS is how it allows you to simplify media queries and keep them aligned with the selector.
-
-```css
-header {
-  position: relative;
-  height: 120px;
-  background: var(--basil-green);
-  border-radius: 8px 8px 0px 0px;
-  h1 {
-    background: url(img/basil.png) no-repeat;
-    font-family: FuturaStdLight, sans-serif;
-    font-weight: normal;
-    color: #fff;
-    font-size: 5rem;
-    @media (min-width: 640px){
-      padding-left: 240px;
-      padding-top: 90px;
-      transform: translate(-100px, -80px);
-      background-position: top left;
-    }
-  }
-  .beta {
-    background: url('img/burst.svg') no-repeat;
-    color: #fff;
-    font-size: 1.5rem;
-    position: absolute;
-    top: -20px;
-    right: 10px;
-    width: 85px;
-    height: 85px;
-    line-height: 85px;
-    text-align: center;
-    text-transform: uppercase;
-    transform: rotate(20deg);
-    transition: all 1s ease;
-    &:hover {
-      transform: rotate(0deg) scale(1.2);
-    }
-  }
-}
-```
-
-Note the use of an ampersand for the hover pseudo selector.
-
-#### SASS Comments
-
-`//` SASS allows you to use JavaScript style comments. These comments do not get compiled into the css file. Traditional CSS comments ( `/* ... */` ) do.
-
-#### SASS Partials and Imports
-
-Allow you to create separate function or feature specific style sheets using [imports](https://sass-lang.com/guide#topic-4) and helps maintain a large code base.
-
-* Create `scss/imports`
-* Cut and copy the newly nested code for header into a new document `scss/imports/_header.scss`
-* import it into `styles.scss` by adding `@import "imports/header";` to the top of that file
-
-This also requires a slight alteration to the npm script for SASS. Quit the SASS processing and change it to read:
-
-`"startSass": "node-sass  --watch scss --output app/css/"`
-
-#### SASS Variables
-
-Variables for breakpoints and colors.
-
-Example:
-
-```css
-$break-five: 81.25em;
-// 1300px
-$break-four: 71.25em;
-// 1140
-$break-three: 61.25em;
-// 980
-$break-two: 46.25em;
-// 760
-$break-one: 22.5em;
-// 360
-
-//ADDITIONAL CONVERSIONS
-// 67.5rem    1080px
-// 1.125rem   18px
-// 1rem       16px
-// 0.875rem   14px
-// .75rem     12px
-$radius: .25rem;
-
-$fonts: 'Source Sans Pro', Helvetica, Clean, sans-serif;
-
-$link: #007eb6;
-$cyan: #00aeef;
-$cyan10: #e2f4fd;
-$blue100: #003366;
-$blue50: #5997b1;
-$webdarkcyan: #006991;
-$specialblue: #007eb6;
-$text: #444;
-$caption: #808285;
-$borders: #dcdcdc;
-$borders-callout: #820064;
-$lightgray: #F2F2F1;
-$gray10: #ebeced;
-$gray25: #d0d2d3;
-$gray50: #abacad;
-$gray75: #808285;
-$gray100: #585858;
-$fushia100: #820064;
-$green100: #339548;
-$red100: #cc3333;
-
-
-$blk-100: rgba(0,0,0,1);
-$blk-095: rgba(0,0,0,0.95);
-$blk-090: rgba(0,0,0,0.90);
-$blk-085: rgba(0,0,0,0.85);
-$blk-080: rgba(0,0,0,0.80);
-$blk-075: rgba(0,0,0,0.75);
-$blk-070: rgba(0,0,0,0.70);
-$blk-065: rgba(0,0,0,0.65);
-$blk-060: rgba(0,0,0,0.60);
-$blk-055: rgba(0,0,0,0.55);
-$blk-050: rgba(0,0,0,0.50);
-$blk-040: rgba(0,0,0,0.40);
-$blk-010: rgba(0,0,0,0.10);
-
-$gray-100: rgba(51,51,51,1);
-$gray-095: rgba(51,51,51,0.95);
-$gray-090: rgba(51,51,51,0.90);
-$gray-085: rgba(51,51,51,0.85);
-$gray-080: rgba(51,51,51,0.80);
-$gray-075: rgba(51,51,51,0.75);
-$gray-070: rgba(51,51,51,0.70);
-$gray-065: rgba(51,51,51,0.65);
-$gray-060: rgba(51,51,51,0.60);
-$gray-055: rgba(51,51,51,0.55);
-$gray-050: rgba(51,51,51,0.50);
-$gray-040: rgba(51,51,51,0.40);
-$gray-010: rgba(51,51,51,0.10);
-```
