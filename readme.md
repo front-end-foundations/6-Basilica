@@ -135,6 +135,8 @@ Setting up SASS includes creating and defining an input folder for scss and an o
 
 and then viewing the output.
 
+Note the auto prefixing. See also git [postcss-preset-env](https://github.com/csstools/postcss-preset-env)
+
 ### Node-sass
 
 You can use NPM to install [node-sass](https://www.npmjs.com/package/node-sass) and use this via an npm script.
