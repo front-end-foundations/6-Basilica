@@ -519,7 +519,120 @@ Demo: using grid areas responsively:
 }
 ```
 
-## Review: JavaScript
+## JavaScript
+
+## Node Demo
+
+In a new folder `basils.js`
+
+```sh
+$ npm init
+$ npm install random-number
+```
+
+```js
+const randomNumber = require('random-number');
+
+const randomIndex = randomNumber({
+  min: 0,
+  max: 4,
+  integer: true,
+});
+
+console.log(randomIndex);
+```
+
+```sh
+> node basils.js
+```
+
+```js
+const randomNumber = require('random-number');
+
+const basilChef = ['mama', 'papa', 'baby'];
+const basilTexture = ['greasy', 'frozen', 'spicy'];
+
+function randomItem(array) {
+  const randomIndex = randomNumber({
+    min: 0,
+    max: array.length - 1,
+    integer: true,
+  });
+  return array[randomIndex];
+}
+
+console.log(randomItem(basilChef));
+```
+
+```sh
+> node ...
+```
+
+```js
+const randomNumber = require('random-number');
+
+const basilChef = ['mama', 'papa', 'baby'];
+const basilTexture = ['greasy', 'frozen', 'spicy'];
+
+function randomItem(array) {
+  const randomIndex = randomNumber({
+    min: 0,
+    max: array.length - 1,
+    integer: true,
+  });
+  return array[randomIndex];
+}
+
+function makeBasil() {
+  return randomItem(basilChef) + ' '+ '\'s' + ' ' + randomItem(basilTexture) + ' basil';
+}
+
+console.log(makeBasil());
+```
+
+```js
+function makeBasil() {
+  return (
+    '<h2>' + randomItem(basilChef) + "'s" + ' ' + randomItem(basilTexture) + ' basil' + '</h2>'
+  );
+}
+```
+
+```js
+function makeBasil() {
+  return (
+    `<h2>${randomItem(basilChef)}'s ${randomItem(basilTexture)} basil</h2>`
+  );
+}
+```
+
+In `scripts.js`:
+
+```js
+const el = document.querySelector('div.content')
+
+function randomName(array) {
+  const min = 0;
+  const max = array.length - 1
+  const randomIndex = Math.floor(Math.random() * (max + 1));
+  return array[randomIndex];
+}
+
+const makeBasil = () => {
+  const basilChef = ['mama', 'papa', 'baby'];
+  const basilTexture = ['greasy', 'frozen', 'spicy'];
+
+  return `
+  <h2>${randomName(basilChef)}'s ${randomName(basilTexture)} basil</h2>
+  `
+};
+
+console.log(makeBasil());
+
+el.innerHTML = makeBasil()
+```
+
+## Popover
 
 Building the popover window.
 
