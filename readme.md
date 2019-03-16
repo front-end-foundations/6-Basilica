@@ -106,6 +106,7 @@ Apps that allow you to use SASS include:
 
 * [Koala](http://koala-app.com)
 * [Scout app](http://scout-app.io/)
+* and [more](https://sass-lang.com/install)
 
 Setting up SASS includes creating and defining an input folder for scss and an output folder for css.
 
