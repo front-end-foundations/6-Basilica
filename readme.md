@@ -151,11 +151,11 @@ Add a script for processing:
 ```js
   "scripts": {
     ...
-    "startSass": "node-sass  --watch scss/styles.scss --output app/css/styles.css"
+    "startSass": "sass  scss/styles.scss app/css/styles.css --watch --source-map"
   },
 ```
 
-Node-sass CLI [documentation](https://github.com/sass/node-sass#command-line-interface)
+Dart Sass CLI [documentation](https://sass-lang.com/documentation/file.SASS_REFERENCE.html)
 
 Test it by running `$ npm run startSass` and add the following to the `scss` file:
 
@@ -172,14 +172,9 @@ $ npm install concurrently --save-dev
 ```js
 "scripts": {
   ...
-  "startSass": "node-sass  --watch scss/styles.scss --output app/css/",
-  "boom!": "concurrently \"npm run start\" \"npm run startSass\" "
+  "boom!": "concurrently 'npm run startmac' 'npm run startSass' "
 },
 ```
-
-#### SASS Error Checking
-
-Intentionally create an error by removing the semi-colon from the first line in the scss file.
 
 #### SASS variables
 
@@ -188,75 +183,13 @@ $basil-green: #88a308;
 $breakpoint-med: 640px;
 ```
 
-#### SASS nesting 
-
-Sass will let you nest your CSS selectors in a way that follows the same visual hierarchy of your HTML. Be aware that overly nested rules will result in over-qualified CSS that could prove hard to maintain and is generally considered bad practice.
-
-One of the best things about nesting in SASS is how it allows you to simplify media queries and keep them aligned with the selector.
+Usage:
 
 ```css
-header {
-  position: relative;
-  height: 120px;
-  background: var(--basil-green);
-  border-radius: 8px 8px 0px 0px;
-  h1 {
-    background: url(img/basil.png) no-repeat;
-    font-family: FuturaStdLight, sans-serif;
-    font-weight: normal;
-    color: #fff;
-    font-size: 5rem;
-    @media (min-width: 640px){
-      padding-left: 240px;
-      padding-top: 90px;
-      transform: translate(-100px, -80px);
-      background-position: top left;
-    }
-  }
-  .beta {
-    background: url('img/burst.svg') no-repeat;
-    color: #fff;
-    font-size: 1.5rem;
-    position: absolute;
-    top: -20px;
-    right: 10px;
-    width: 85px;
-    height: 85px;
-    line-height: 85px;
-    text-align: center;
-    text-transform: uppercase;
-    transform: rotate(20deg);
-    transition: all 1s ease;
-    &:hover {
-      transform: rotate(0deg) scale(1.2);
-    }
-  }
-}
+* { color: $basil-green }
 ```
 
-Note the use of an ampersand for the hover pseudo selector.
-
-#### SASS Comments
-
-`//` SASS allows you to use JavaScript style comments. These comments do not get compiled into the css file. Traditional CSS comments ( `/* ... */` ) do.
-
-#### SASS Partials and Imports
-
-Allow you to create separate function or feature specific style sheets using [imports](https://sass-lang.com/guide#topic-4) and helps maintain a large code base.
-
-Examples [Bootstrap](https://getbootstrap.com) and its [SASS roots](https://github.com/twbs/bootstrap-sass)
-
-* Create `scss/imports`
-* Cut and copy the newly nested code for header into a new document `scss/imports/_header.scss`
-* import it into `styles.scss` by adding `@import "imports/header";` to the top of that file
-
-This also requires a slight alteration to the npm script for SASS. Quit the SASS processing and change it to read:
-
-`"startSass": "node-sass  --watch scss --output app/css/"`
-
-#### SASS Variables
-
-Variables for breakpoints and colors.
+Here is a larger example includng variables for breakpoints and more:
 
 Example:
 
@@ -333,6 +266,99 @@ $gray-040: rgba(51,51,51,0.40);
 $gray-010: rgba(51,51,51,0.10);
 ```
 
+#### SASS nesting 
+
+Sass will let you nest your CSS selectors in a way that follows the same visual hierarchy of your HTML. Be aware that overly nested rules will result in over-qualified CSS that could prove hard to maintain and is generally considered bad practice.
+
+One of the best things about nesting in SASS is how it allows you to simplify media queries and keep them aligned with the selector.
+
+Transform the `header.scss` file.
+
+```css
+header {
+  position: relative;
+  height: 120px;
+  background: var(--basil-green);
+  border-radius: 8px 8px 0px 0px;
+  
+  h1 {
+    background: url(img/basil.png) no-repeat;
+    font-family: FuturaStdLight, sans-serif;
+    font-weight: normal;
+    color: #fff;
+    font-size: 5rem;
+    @media (min-width: 640px) {
+      padding-left: 240px;
+      padding-top: 90px;
+      transform: translate(-100px, -80px);
+      background-position: top left;
+    }
+  }
+  
+  a.beta {
+    background: url('img/burst.svg') no-repeat;
+    color: #fff;
+    font-size: 1.5rem;
+    position: absolute;
+    top: -20px;
+    right: 10px;
+    width: 85px;
+    height: 85px;
+    line-height: 85px;
+    text-align: center;
+    text-transform: uppercase;
+    transform: rotate(20deg);
+    transition: all 1s ease;
+  }
+  a.beta:hover {
+    transform: rotate(0deg) scale(1.2);
+  }
+}
+```
+
+Note the use of nesting to perform the media query.
+
+We can use an ampersand for the hover pseudo selector:
+
+```css
+a.beta {
+  background: url('img/burst.svg') no-repeat;
+  color: #fff;
+  font-size: 1.5rem;
+  position: absolute;
+  top: -20px;
+  right: 10px;
+  width: 85px;
+  height: 85px;
+  line-height: 85px;
+  text-align: center;
+  text-transform: uppercase;
+  transform: rotate(20deg);
+  transition: all 1s ease;
+  &:hover {
+    transform: rotate(0deg) scale(1.2);
+  }
+}
+```
+
+#### SASS Comments
+
+`//` SASS allows you to use JavaScript style comments. These comments do not get compiled into the css file. Traditional CSS comments ( `/* ... */` ) do.
+
+#### SASS Partials and Imports
+
+Allow you to create separate function or feature specific style sheets using [imports](https://sass-lang.com/guide#topic-4) and helps maintain a large code base.
+
+Examples [Bootstrap](https://getbootstrap.com) and its [SASS roots](https://github.com/twbs/bootstrap-sass)
+
+* Create `scss/imports`
+* Cut and copy the newly nested code for header into a new document `scss/imports/_header.scss`
+* import it into `styles.scss` by adding `@import "imports/header";` to the top of that file
+
+<!-- This also requires a slight alteration to the npm script for SASS. Quit the SASS processing and change it to read:
+
+`"startSass": "node-sass  --watch scss --output app/css/"` -->
+
 ## Review: CSS Grid
 
 The [CSS Grid Cheatsheet](https://css-tricks.com/snippets/css/complete-guide-grid/) on CSS Tricks.
@@ -344,29 +370,26 @@ Our use of Flexbox to style the content columns operates in a single (horizontal
 Note that in our document these are only used in wide screens:
 
 ```css
-@media (min-width: 600px){
-    .content {
-        display: grid;
-        grid-template-columns: 20% 20% 20% 20% 20%;
-        /*grid-template-rows: 20% 20% 20% 20% 20%;*/
-    }
-
-    article {
-        grid-column-start: 1;
-        grid-column-end: span 3;
-        grid-row-start: 1;
-        /*padding: 0.5rem;*/
-    }
-
-    aside {
-        grid-column-start: 4;
-        grid-column-end: span 2;
-        grid-row-start: 1;
-
-        background-color: #f5faef;
-        box-shadow: -4px 0px 4px #ddd;
-        padding: 0.5rem;
-    } 
+@media (min-width: 640px) {
+  .content{
+    display: grid;
+    grid-template-columns: 20% 20% 20% 20% 20%;
+    grid-template-rows: 20% 20% 20% 20% 20%;
+    grid-gap: 20px;
+  }
+  article {
+    grid-row-start: 1;
+    grid-column-start: 1;
+    grid-column-end: span 3;
+  }
+  aside {
+    grid-row-start: 1;
+    grid-column-start: 4;
+    grid-column-end: span 2;
+    
+    background: #f5faef;
+    box-shadow: -4px 0px 4px #ddd;
+  }
 }
 ```
 
@@ -378,15 +401,12 @@ Let's edit it to use `fr` and `grid-column-gap`:
         display: grid;
         grid-template-columns: 3fr 2fr;
         grid-column-gap: 1rem;
-        /*grid-template-rows: 20% 20% 20% 20% 20%;*/
     }
     article {
         grid-column-start: 1;
-        grid-row-start: 1;
     }
     aside {
         grid-column-start: 2;
-        grid-row-start: 1;
         background-color: #f5faef;
         box-shadow: -4px 0px 4px #ddd;
         padding: 0.5rem;
@@ -394,43 +414,108 @@ Let's edit it to use `fr` and `grid-column-gap`:
 }
 ```
 
-Note: while it is possible to use CSS Grid for the entire layout, it is not really necessary and adds unnecessary complexity:
+The `repeat` property requires a different property for the children:
 
 ```css
 @media (min-width: 600px){
-    body {
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: 120px 76px 1fr 160px;
+  .content {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      grid-column-gap: 1rem;
+  }
+  article {
+    grid-column: span 3;
+  }
+  aside {
+    grid-column: span 2;
+    background-color: #f5faef;
+    box-shadow: -4px 0px 4px #ddd;
+    padding: 0.5rem;
+  } 
+}
+```
+
+Note: while it is possible to use CSS Grid for the entire layout, it is not really necessary and adds unnecessary complexity.
+
+However we will use `grid-template-areas` in order to show the principle and a nested grid:
+
+```css
+@media (min-width: 600px){
+  body {
+    display: grid;
+    grid-template-areas: 
+    "header" 
+    "nav" 
+    "content"
+    "footer";
+  }
+  header {
+    grid-area: header;
+  }
+  nav {
+    grid-area: nav;
+  }
+  .content {
+    grid-area: content;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-column-gap: 1rem;
+  }
+  article {
+    grid-column: span 3;
+  }
+  aside {
+    grid-column: span 2;
+    background-color: #f5faef;
+    box-shadow: -4px 0px 4px #ddd;
+    padding: 0.5rem;
+  } 
+  footer {
+    grid-area: footer;
+  }
+}
+```
+
+Demo: using grid areas responsively:
+
+```css
+@media (min-width: 600px){
+  body {
+    display: grid;
+    grid-template-areas: 
+    "header"
+    "topfooter"
+    "nav"
+    "content"
+    "footer";
+  }
+  header {
+    grid-area: header;
+  }
+  nav {
+    grid-area: nav;
+  }
+  .content {
+    grid-area: content;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-column-gap: 1rem;
+  }
+  article {
+    grid-column: span 3;
+  }
+  aside {
+    grid-column: span 2;
+    background-color: #f5faef;
+    box-shadow: -4px 0px 4px #ddd;
+    padding: 0.5rem;
+  } 
+  footer {
+    grid-area: footer;
+    @media (min-width: $break-four){
+      grid-area: topfooter;
     }
-    header {
-        grid-column-start: 1;
-        grid-row-start: 1;
-    }
-    nav {
-        grid-column-start: 1;
-        grid-row-start: 2;
-    }
-    footer {
-        grid-column-start: 1;
-        grid-row-start: 4;
-    }
-    .content {
-        display: grid;
-        grid-template-columns: 3fr 2fr;
-        grid-column-gap: 1rem;
-    }
-    article {
-        grid-column-start: 1;
-        grid-row-start: 1;
-    }
-    aside {
-        grid-column-start: 2;
-        grid-row-start: 1;
-        background-color: #f5faef;
-        box-shadow: -4px 0px 4px #ddd;
-        padding: 0.5rem;
-    } 
+  }
 }
 ```
 
