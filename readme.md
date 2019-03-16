@@ -106,8 +106,11 @@ Apps that allow you to use SASS include:
 
 * [Koala](http://koala-app.com)
 * [Scout app](http://scout-app.io/)
+* and [more](https://sass-lang.com/install)
 
 Setting up SASS includes creating and defining an input folder for scss and an output folder for css.
+
+For VS Code you need to configure the Live SASS Compiler plug in.
 
 ```
 {
@@ -125,7 +128,7 @@ Setting up SASS includes creating and defining an input folder for scss and an o
 }
 ```
 
-* Create a `scss` directory at the _top level_ of the project folder
+* Create a `scss` directory at the _top level_ of the project folder (e.g. not in the app folder)
 * Save or copy `styles.css` into it as `styles.scss` - note the `.scss` suffix 
 * Run the SASS processor and test your setup by adding something like the following to the scss file:
 
@@ -133,13 +136,11 @@ Setting up SASS includes creating and defining an input folder for scss and an o
 * { color red !important }
 ```
 
-And then viewing the output.
-
-Note the output and auto prefixing. See also git [postcss-preset-env](https://github.com/csstools/postcss-preset-env)
+And then view the output. Note the auto prefixing. See also git [postcss-preset-env](https://github.com/csstools/postcss-preset-env)
 
 ### Node-sass
 
-You can use NPM to install [node-sass](https://www.npmjs.com/package/node-sass) and use this via an npm script.
+You can also use NPM to install [node-sass](https://www.npmjs.com/package/node-sass) and use this via an npm script.
 
 Install node-sass via NPM as a developmental dependency.
 
@@ -150,11 +151,11 @@ Add a script for processing:
 ```js
   "scripts": {
     ...
-    "startSass": "node-sass  --watch scss/styles.scss --output app/css/styles.css"
+    "startSass": "sass  scss/styles.scss app/css/styles.css --watch --source-map"
   },
 ```
 
-Node-sass CLI [documentation](https://github.com/sass/node-sass#command-line-interface)
+Dart Sass CLI [documentation](https://sass-lang.com/documentation/file.SASS_REFERENCE.html)
 
 Test it by running `$ npm run startSass` and add the following to the `scss` file:
 
@@ -171,14 +172,9 @@ $ npm install concurrently --save-dev
 ```js
 "scripts": {
   ...
-  "startSass": "node-sass  --watch scss/styles.scss --output app/css/",
-  "boom!": "concurrently \"npm run start\" \"npm run startSass\" "
+  "boom!": "concurrently 'npm run startmac' 'npm run startSass' "
 },
 ```
-
-#### SASS Error Checking
-
-Intentionally create an error by removing the semi-colon from the first line in the scss file.
 
 #### SASS variables
 
@@ -187,11 +183,19 @@ $basil-green: #88a308;
 $breakpoint-med: 640px;
 ```
 
+Usage:
+
+```css
+* { color: $basil-green }
+```
+
 #### SASS nesting 
 
 Sass will let you nest your CSS selectors in a way that follows the same visual hierarchy of your HTML. Be aware that overly nested rules will result in over-qualified CSS that could prove hard to maintain and is generally considered bad practice.
 
 One of the best things about nesting in SASS is how it allows you to simplify media queries and keep them aligned with the selector.
+
+Transform the `header.scss` file.
 
 ```css
 header {

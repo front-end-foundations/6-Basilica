@@ -5,11 +5,18 @@
   "main": "index.js",
   "scripts": {
     "startmac": "browser-sync start --directory --server 'app' --files 'app' --browser chrome",
-    "startpc": "browser-sync start --directory --server \"app\" --files \"app\" --browser chrome.exe"
+    "startpc": "browser-sync start --directory --server \"app\" --files \"app\" --browser chrome.exe",
+    "startSass": "sass  scss/styles.scss app/css/styles.css --watch --source-map",
+    "boom!": "concurrently 'npm run startmac' 'npm run startSass' "
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "browser-sync": "^2.26.3"
+    "browser-sync": "^2.26.3",
+    "concurrently": "^4.1.0"
+  },
+  "dependencies": {
+    "sass": "^1.17.3",
+    "save-dev": "^2.0.0"
   }
 }
