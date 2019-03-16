@@ -110,6 +110,8 @@ Apps that allow you to use SASS include:
 
 Setting up SASS includes creating and defining an input folder for scss and an output folder for css.
 
+For VS Code you need to configure the Live SASS Compiler plug in.
+
 ```
 {
   "liveSassCompile.settings.formats": [
@@ -126,7 +128,7 @@ Setting up SASS includes creating and defining an input folder for scss and an o
 }
 ```
 
-* Create a `scss` directory at the _top level_ of the project folder
+* Create a `scss` directory at the _top level_ of the project folder (e.g. not in the app folder)
 * Save or copy `styles.css` into it as `styles.scss` - note the `.scss` suffix 
 * Run the SASS processor and test your setup by adding something like the following to the scss file:
 
@@ -134,13 +136,11 @@ Setting up SASS includes creating and defining an input folder for scss and an o
 * { color red !important }
 ```
 
-And then viewing the output.
-
-Note the output and auto prefixing. See also git [postcss-preset-env](https://github.com/csstools/postcss-preset-env)
+And then view the output. Note the auto prefixing. See also git [postcss-preset-env](https://github.com/csstools/postcss-preset-env)
 
 ### Node-sass
 
-You can use NPM to install [node-sass](https://www.npmjs.com/package/node-sass) and use this via an npm script.
+You can also use NPM to install [node-sass](https://www.npmjs.com/package/node-sass) and use this via an npm script.
 
 Install node-sass via NPM as a developmental dependency.
 
