@@ -4,9 +4,9 @@
   "description": "huh",
   "main": "index.js",
   "scripts": {
-    "startmac": "browser-sync start --directory --server 'app' --files 'app' --browser chrome",
+    "startmac": "browser-sync start --directory --server 'app' --files 'app' --browser 'chrome' ",
     "startpc": "browser-sync start --directory --server \"app\" --files \"app\" --browser chrome.exe",
-    "startSass": "sass  scss/styles.scss app/css/styles.css --watch --source-map",
+    "startSass": "sass scss/styles.scss app/css/styles.css --watch --source-map",
     "boom!": "concurrently 'npm run startmac' 'npm run startSass' "
   },
   "author": "",

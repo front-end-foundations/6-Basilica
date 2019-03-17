@@ -6,18 +6,24 @@
 
 ## Command Line
 
-Navigate to today's project folder. 
+**Important:** Today you should NOT DOWNLOAD THE ZIP. 
 
-Reference:
+Instead, navigate to your Desktop (or wherever you want to work from) in the terminal. 
 
 ```sh
-$ cd ~ // go to your home directory
-$ cd // copy and paste the folder you want to go to (MacOS)
+$ cd ~ // go to your home directory OR
+$ cd // copy and paste the folder you want to go to OR
 $ cd ~/Desk // tab completion
-$ cd .. // go up one level
-$ ls // list files and folders
-$ ls -al  // flags expand the command
 $ pwd // print working directory
+```
+
+Next, copy the URI to today's git repo:
+
+<img src="app/other/clone.png" width="320" />
+
+```sh
+$ git clone https://github.com/front-end-foundations/6-Basilica.git
+$ cd 6-Basilica
 ```
 
 ## Node Package Manager
@@ -33,7 +39,7 @@ Note:
 * package.json
 * dependencies
 * node_modules folder
-* discuss the need for `.gitignore`.
+* `.gitignore`.
 
 `npm init` creates `package.json`.
 
@@ -62,40 +68,6 @@ And run the process:
 $ npm run start
 ```
 
-Quit the process with Control-c. Try adding a `--directory` option:
-
-```js
-  "scripts": {
-    "startmac": "browser-sync start --directory --server 'app' --files 'app'",
-    "startpc": "browser-sync start --directory --server \"app\" --files \"app\""
-  },
-```
-
-And `--browser` options (note the PC browser):
-
-```js
-"startmac": "browser-sync start --browser 'google chrome' --server 'app' --files 'app'"
-"startpc": "browser-sync start --browser \"chrome.exe\" --server \"app\" --files \"app\""
-```
-
-## Git
-
-Initialize a new local repository, add all the files to it, and do an initial commit:
-
-```sh
-$ git init
-$ git add .
-$ git commit -m 'Initial commit'
-```
-
-Create a new branch and check it out:
-
-```sh
-$ git branch <branchname>
-$ git checkout <branchname>
-$ git status
-```
-
 ## SASS
 
 [Syntactically Awesome Style Sheets](https://sass-lang.com) - SASS [adds features](http://sass-lang.com/guide) to css.
@@ -107,6 +79,8 @@ Apps that allow you to use SASS include:
 * [Koala](http://koala-app.com)
 * [Scout app](http://scout-app.io/)
 * and [more](https://sass-lang.com/install)
+
+Note: the steps below were completed in the last class.
 
 Setting up SASS includes creating and defining an input folder for scss and an output folder for css.
 
@@ -129,8 +103,11 @@ For VS Code you need to configure the Live SASS Compiler plug in.
 ```
 
 * Create a `scss` directory at the _top level_ of the project folder (e.g. not in the app folder)
-* Save or copy `styles.css` into it as `styles.scss` - note the `.scss` suffix 
-* Run the SASS processor and test your setup by adding something like the following to the scss file:
+* Save or copy `styles.css` into it as `styles.scss` - note the `.scss` suffix
+
+For today's class, I have created a folder `scss/imports` and a new file `scss/styles.scss`. Examine them. We will come back to them later.
+
+Run the SASS processor and test your setup by temporarily adding the following to the scss file:
 
 ```css
 * { color red !important }
@@ -157,7 +134,7 @@ Add a script for processing:
 
 Dart Sass CLI [documentation](https://sass-lang.com/documentation/file.SASS_REFERENCE.html)
 
-Test it by running `$ npm run startSass` and add the following to the `scss` file:
+Test it by running `$ npm run startSass` and re-add the following to the `scss` file:
 
 ```css
 * { color red !important }
@@ -189,7 +166,7 @@ Usage:
 * { color: $basil-green }
 ```
 
-Here is a larger example includng variables for breakpoints and more:
+Here is a larger example including variables for breakpoints and more:
 
 Example:
 
@@ -318,23 +295,11 @@ header {
 
 Note the use of nesting to perform the media query.
 
-We can use an ampersand for the hover pseudo selector:
+We can also use nesting and an ampersand for the hover pseudo selector:
 
 ```css
 a.beta {
-  background: url('img/burst.svg') no-repeat;
-  color: #fff;
-  font-size: 1.5rem;
-  position: absolute;
-  top: -20px;
-  right: 10px;
-  width: 85px;
-  height: 85px;
-  line-height: 85px;
-  text-align: center;
-  text-transform: uppercase;
-  transform: rotate(20deg);
-  transition: all 1s ease;
+  ...
   &:hover {
     transform: rotate(0deg) scale(1.2);
   }
@@ -353,11 +318,9 @@ Examples [Bootstrap](https://getbootstrap.com) and its [SASS roots](https://gith
 
 * Create `scss/imports`
 * Cut and copy the newly nested code for header into a new document `scss/imports/_header.scss`
-* import it into `styles.scss` by adding `@import "imports/header";` to the top of that file
+* import it into `styles.scss` by adding `@import "imports/header";` to that file
 
-<!-- This also requires a slight alteration to the npm script for SASS. Quit the SASS processing and change it to read:
-
-`"startSass": "node-sass  --watch scss --output app/css/"` -->
+Note the underscore in the include.
 
 ## Review: CSS Grid
 
@@ -393,7 +356,42 @@ Note that in our document these are only used in wide screens:
 }
 ```
 
-Let's edit it to use `fr` and `grid-column-gap`:
+We have some problems here due to the use of percentages (`20% * 5 + the grid-gap`).
+
+Create a new partial `_layout.scss` and cut and paste the following code into it.
+
+```css
+article,
+aside {
+  padding: 1rem;
+}
+
+@media (min-width: 600px){
+  .content {
+      display: grid;
+      grid-template-columns: 3fr 2fr;
+      grid-column-gap: 1rem;
+  }
+  article {
+      grid-column-start: 1;
+  }
+  aside {
+      grid-column-start: 2;
+      background-color: #f5faef;
+      box-shadow: -4px 0px 4px #ddd;
+      padding: 0.5rem;
+  } 
+}
+
+footer {
+  background-color: var(--basil-green);
+  padding: 1rem;
+  border-radius: 0 0 4px 4px;
+  margin-bottom: 2rem;
+}
+```
+
+We edited it to use `fr` - fractions:
 
 ```css
 @media (min-width: 600px){
@@ -414,7 +412,7 @@ Let's edit it to use `fr` and `grid-column-gap`:
 }
 ```
 
-The `repeat` property requires a different property for the children:
+We can also use the repeat property. The `repeat` property requires a different property for the children:
 
 ```css
 @media (min-width: 600px){
@@ -440,6 +438,11 @@ Note: while it is possible to use CSS Grid for the entire layout, it is not real
 However we will use `grid-template-areas` in order to show the principle and a nested grid:
 
 ```css
+article,
+aside {
+  padding: 1rem;
+}
+
 @media (min-width: 600px){
   body {
     display: grid;
@@ -474,50 +477,16 @@ However we will use `grid-template-areas` in order to show the principle and a n
     grid-area: footer;
   }
 }
-```
 
-Demo: using grid areas responsively:
-
-```css
-@media (min-width: 600px){
-  body {
-    display: grid;
-    grid-template-areas: 
-    "header"
-    "topfooter"
-    "nav"
-    "content"
-    "footer";
-  }
-  header {
-    grid-area: header;
-  }
-  nav {
-    grid-area: nav;
-  }
-  .content {
-    grid-area: content;
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-column-gap: 1rem;
-  }
-  article {
-    grid-column: span 3;
-  }
-  aside {
-    grid-column: span 2;
-    background-color: #f5faef;
-    box-shadow: -4px 0px 4px #ddd;
-    padding: 0.5rem;
-  } 
-  footer {
-    grid-area: footer;
-    @media (min-width: $break-four){
-      grid-area: topfooter;
-    }
-  }
+footer {
+  background-color: var(--basil-green);
+  padding: 1rem;
+  border-radius: 0 0 4px 4px;
+  margin-bottom: 2rem;
 }
 ```
+
+Commit your changes and checkout the `spring2019-done` branch.
 
 ## JavaScript
 
