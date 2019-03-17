@@ -105,6 +105,10 @@ h3 {
   letter-spacing: -1px;
 }
 
+h2 {
+  font-size: 2rem;
+}
+
 a {
   color: #f90;
   text-decoration: none;
@@ -139,6 +143,7 @@ header {
   background: var(--basil-green);
   border-radius: 8px 8px 0px 0px;
 }
+
 header h1 {
   background: url(img/basil.png) no-repeat;
   font-family: FuturaStdLight, sans-serif;

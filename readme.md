@@ -526,6 +526,9 @@ Demo: using grid areas responsively:
 In a new folder `basils.js`
 
 ```sh
+$ mkdir node
+$ cd node
+$ touch basil.js
 $ npm init
 $ npm install random-number
 ```
@@ -536,14 +539,16 @@ const randomNumber = require('random-number');
 const randomIndex = randomNumber({
   min: 0,
   max: 4,
-  integer: true,
+  integer: true
 });
 
 console.log(randomIndex);
+console.log(typeof randomNumber);
+console.log(typeof randomIndex);
 ```
 
 ```sh
-> node basils.js
+$ node basil.js
 ```
 
 ```js
@@ -561,11 +566,14 @@ function randomItem(array) {
   return array[randomIndex];
 }
 
+console.log(basilChef);
+console.log(basilChef[0]);
+console.log(basilChef.length);
 console.log(randomItem(basilChef));
 ```
 
 ```sh
-> node ...
+$ node basil.js
 ```
 
 ```js
@@ -584,7 +592,7 @@ function randomItem(array) {
 }
 
 function makeBasil() {
-  return randomItem(basilChef) + ' '+ '\'s' + ' ' + randomItem(basilTexture) + ' basil';
+  return randomItem(basilChef) + '\'s' + ' ' + randomItem(basilTexture) + ' basil';
 }
 
 console.log(makeBasil());
@@ -597,6 +605,8 @@ function makeBasil() {
   );
 }
 ```
+
+Template strings:
 
 ```js
 function makeBasil() {
@@ -632,6 +642,13 @@ console.log(makeBasil());
 el.innerHTML = makeBasil()
 ```
 
+```css
+h2 {
+  font-size: 2rem;
+  text-transform: capitalize
+}
+```
+
 ## Popover
 
 Building the popover window.
@@ -647,17 +664,16 @@ Create and style a div on the bottom of the page.
 
 ```css
 .betainfo {
-    width: 50%;
-    padding: 1rem;
-    background: #fff;
-    border: 2px solid #eabc5a;
-    border-radius: 0.25rem;
-    position: fixed;
-    z-index: 2000;
-    top: 50%;
-    left: 50%;
-    margin: -25% 0 0 -25%;
-    /*display: none;*/
+  width: 300px;
+  height: 150px;
+  padding: 0.5rem;
+  background: #fff;
+  border: 4px solid var(--orange);
+  border-radius: 0.25rem;
+  position: fixed;
+  top: calc(50% - 75px);
+  left: calc(50% - 150px);
+  /*display: none;*/
 }
 ```
 
@@ -723,7 +739,7 @@ Add html to the betainfo:
     <h2>In Beta</h2>
     <p>Information about the beta program.</p>
         <!-- NEW -->
-    <a class="closer" href="#0">X</a> 
+    <a class="closer" href="#0">✖︎</a> 
 </div>
 ```
 
@@ -731,16 +747,18 @@ Style it:
 
 ```css
 .closer {
-    position: absolute;
-    top: -10px;
-    right: -10px;
-    width: 1.5rem;
-    height: 1.5rem;
-    background: #fff;
-    border: 2px solid #eabc5a;
-    border-radius: 50%;
-    text-align: center;
-    line-height: 1.5rem;
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 1.5rem;
+  height: 1.5rem;
+  background: #fff;
+  color: var(--dark-gray);
+  border: 3px solid #eabc5a;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 0.25rem;
+  cursor: pointer;
 }
 ```
 
@@ -760,7 +778,7 @@ function showPopover() {
 }
 ```
 
-Add a shader to block access to the page and make the window modal:
+Add a shader after the body tag to block access to the page and make the window modal:
 
 ```html
 <div class="shader"></div>
@@ -801,6 +819,29 @@ function showPopover() {
 }
 ```
 
+Check the cascade and add z-indexes as appropriate.
+
+Killing the scrollbar
+
+```js
+function showPopover() {
+    popoverWindow.classList.toggle('show'); // NEW
+    shader.classList.toggle('show')  // NEW
+    body.classList.toggle('hidden')
+    event.preventDefault();
+}
+```
+
+```css
+.hidden header,
+.hidden nav,
+.hidden .content,
+.hidden footer
+{
+  display: none;
+}
+```
+
 ## A Dynamic Popover
 
 We will create the popover using JavaScript. By making our popover dynamic we will be able to reuse it elsewhere on our page.
@@ -817,7 +858,7 @@ Comment out or delete the current div at the bottom of our page:
 
 ### createElement
 
-You can use the `document.createElement()` method to create an element. E.g.:
+You can use the `document.createElement()` method to create an element, e.g.:
 
 ```js
 > var div = document.createElement('div');
@@ -833,6 +874,8 @@ div.id = 'new-div';
 div.setAttribute('data-div', 'new');
 div.style.color = '#fff';
 div.style.backgroundColor = 'rebeccapurple';
+// add some text
+div.textContent = 'Nice work, dude!';
 ```
 
 ### append 
@@ -840,9 +883,6 @@ div.style.backgroundColor = 'rebeccapurple';
 After you create an element, you need a way to add it to your page. JavaScript provides a handful of methods you can use to add an element before, after, or within some other element in the DOM.
 
 ```js
-// Create a new HTML element as above and add some text
-div.textContent = 'Nice work, dude!';
-
 // Get the element to add your new HTML element before, after, or within
 var target = document.querySelector('.content');
 
@@ -889,7 +929,7 @@ var elem = document.querySelector('.content');
 elem.innerText = 'Welcome my friends to the show that never ends.';
 ```
 
-Since we are creating our div we will delete the current div:
+Since we are creating our div we can delete the current div:
 
 ```html
 <div class="betainfo">
@@ -1110,6 +1150,7 @@ Let's use our new popover to display a message when the user clicks on any of th
 
 
 Add a class `it` to each of the nav bottons:
+
 ```html
 <nav>
     <p>Bonjour Monsieur Ferme</p>
@@ -1179,7 +1220,9 @@ The line `makePopover(itContent);` passes the variable we want to display to the
 Let's use that by first catching it or passing it in to the function as a variable:
 
 ```js
-function makePopover(content) 
+function makePopover(content) {
+  ...
+}
 ```
 
 And then making the contents of the popover dependent on the value of the variable:
