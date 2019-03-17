@@ -6,18 +6,24 @@
 
 ## Command Line
 
-Navigate to today's project folder. 
+**Important:** Today you should NOT DOWNLOAD THE ZIP. 
 
-Reference:
+Instead, navigate to your Desktop (or wherever you want to work from) in the terminal. 
 
 ```sh
-$ cd ~ // go to your home directory
-$ cd // copy and paste the folder you want to go to (MacOS)
+$ cd ~ // go to your home directory OR
+$ cd // copy and paste the folder you want to go to OR
 $ cd ~/Desk // tab completion
-$ cd .. // go up one level
-$ ls // list files and folders
-$ ls -al  // flags expand the command
 $ pwd // print working directory
+```
+
+Next, copy the URI to today's git repo:
+
+<img src="app/other/clone.png" width="320" />
+
+```sh
+$ git clone https://github.com/front-end-foundations/6-Basilica.git
+$ cd 6-Basilica
 ```
 
 ## Node Package Manager
@@ -33,7 +39,7 @@ Note:
 * package.json
 * dependencies
 * node_modules folder
-* discuss the need for `.gitignore`.
+* `.gitignore`.
 
 `npm init` creates `package.json`.
 
@@ -62,40 +68,6 @@ And run the process:
 $ npm run start
 ```
 
-Quit the process with Control-c. Try adding a `--directory` option:
-
-```js
-  "scripts": {
-    "startmac": "browser-sync start --directory --server 'app' --files 'app'",
-    "startpc": "browser-sync start --directory --server \"app\" --files \"app\""
-  },
-```
-
-And `--browser` options (note the PC browser):
-
-```js
-"startmac": "browser-sync start --browser 'google chrome' --server 'app' --files 'app'"
-"startpc": "browser-sync start --browser \"chrome.exe\" --server \"app\" --files \"app\""
-```
-
-## Git
-
-Initialize a new local repository, add all the files to it, and do an initial commit:
-
-```sh
-$ git init
-$ git add .
-$ git commit -m 'Initial commit'
-```
-
-Create a new branch and check it out:
-
-```sh
-$ git branch <branchname>
-$ git checkout <branchname>
-$ git status
-```
-
 ## SASS
 
 [Syntactically Awesome Style Sheets](https://sass-lang.com) - SASS [adds features](http://sass-lang.com/guide) to css.
@@ -107,6 +79,8 @@ Apps that allow you to use SASS include:
 * [Koala](http://koala-app.com)
 * [Scout app](http://scout-app.io/)
 * and [more](https://sass-lang.com/install)
+
+Note: the steps below were completed in the last class.
 
 Setting up SASS includes creating and defining an input folder for scss and an output folder for css.
 
@@ -130,13 +104,17 @@ For VS Code you need to configure the Live SASS Compiler plug in.
 
 * Create a `scss` directory at the _top level_ of the project folder (e.g. not in the app folder)
 * Save or copy `styles.css` into it as `styles.scss` - note the `.scss` suffix 
-* Run the SASS processor and test your setup by adding something like the following to the scss file:
+
+
+Run the SASS processor and test your setup by temporarily adding the following to the scss file:
 
 ```css
 * { color red !important }
 ```
 
 And then view the output. Note the auto prefixing. See also git [postcss-preset-env](https://github.com/csstools/postcss-preset-env)
+
+For today's class, I have created a folder `scss/imports` and a new file `scss/styles.scss`. Examine them.
 
 ### Node-sass
 
