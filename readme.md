@@ -103,8 +103,9 @@ For VS Code you need to configure the Live SASS Compiler plug in.
 ```
 
 * Create a `scss` directory at the _top level_ of the project folder (e.g. not in the app folder)
-* Save or copy `styles.css` into it as `styles.scss` - note the `.scss` suffix 
+* Save or copy `styles.css` into it as `styles.scss` - note the `.scss` suffix
 
+For today's class, I have created a folder `scss/imports` and a new file `scss/styles.scss`. Examine them. We will come back to them later.
 
 Run the SASS processor and test your setup by temporarily adding the following to the scss file:
 
@@ -113,8 +114,6 @@ Run the SASS processor and test your setup by temporarily adding the following t
 ```
 
 And then view the output. Note the auto prefixing. See also git [postcss-preset-env](https://github.com/csstools/postcss-preset-env)
-
-For today's class, I have created a folder `scss/imports` and a new file `scss/styles.scss`. Examine them.
 
 ### Node-sass
 
