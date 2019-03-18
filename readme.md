@@ -5,6 +5,7 @@
 ## Homework
  
 * Change the popover behavior so it displays a different message for each of the three navigation buttons
+* Develop a final project proposal
 
 ## Command Line
 
