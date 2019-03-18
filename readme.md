@@ -5,6 +5,7 @@
 ## Homework
  
 * Change the popover behavior so it displays a different message for each of the three navigation buttons
+* Develop a final project proposal
 
 ## Command Line
 
@@ -73,7 +74,9 @@ Note: the steps below were completed in the last class.
 
 Setting up SASS includes creating and defining an input folder for scss and an output folder for css.
 
-For VS Code you need to configure the Live SASS Compiler plug in.
+For VS Code you need to configure the Live SASS Compiler plug in in either a global or on a per project basis.
+
+Here is our minimal sample configuration (check out the `.vscode` directory) for this project:
 
 ```
 {
@@ -91,10 +94,10 @@ For VS Code you need to configure the Live SASS Compiler plug in.
 }
 ```
 
-* Create a `scss` directory at the _top level_ of the project folder (e.g. not in the app folder)
-* Save or copy `styles.css` into it as `styles.scss` - note the `.scss` suffix
+* Create a `scss` directory in the project folder 
+* Save or copy `styles.css` into it renamed to `styles.scss` - note the `.scss` suffix
 
-For today's class, I have created a folder `scss/imports` and a new file `scss/styles.scss`. Examine them. We will come back to them later.
+Note: for today's class, I have created a folder `scss/imports` and a new file `scss/imports/_base.scss` together with changes to the `styles.scss` file. Examine them now. We will come back to them later.
 
 Run the SASS processor and test your setup by temporarily adding the following to the scss file:
 
