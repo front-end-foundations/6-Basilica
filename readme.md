@@ -1,14 +1,15 @@
 # VI - Basilica! JavaScript and SASS
 
+**Important:** DO NOT DOWNLOAD THE ZIP. See the command line instructions below.
+
 ## Homework
  
 * Change the popover behavior so it displays a different message for each of the three navigation buttons
+* Develop a final project proposal
 
 ## Command Line
 
-**Important:** Today you should NOT DOWNLOAD THE ZIP. 
-
-Instead, navigate to your Desktop (or wherever you want to work from) in the terminal. 
+Navigate to your Desktop (or wherever you want to work from) in the terminal. 
 
 ```sh
 $ cd ~ // go to your home directory OR
@@ -17,9 +18,11 @@ $ cd ~/Desk // tab completion
 $ pwd // print working directory
 ```
 
-Next, copy the URI to today's git repo:
+Next, copy the URI for today's git repo:
 
-<img src="app/other/clone.png" width="320" />
+<img src="app/other/clone.png" width="380" />
+
+Finally `clone` the repo into your Desktop (or other chosen directory) and `cd` into it.
 
 ```sh
 $ git clone https://github.com/front-end-foundations/6-Basilica.git
@@ -28,32 +31,11 @@ $ cd 6-Basilica
 
 ## Node Package Manager
 
-Review `npm init` and `npm install`:
+Since there is an existing `package.json` file we will not run `npm init`. 
 
-```sh
-$ npm install 
-```
+Examine `package.json`. We are using [Browser Sync](https://www.browsersync.io) as our sample application.
 
-Note:
-
-* package.json
-* dependencies
-* node_modules folder
-* `.gitignore`.
-
-`npm init` creates `package.json`.
-
-`touch .gitignore` created the `.gitignore` file (you could do this in the editor as well)
-
-`npm install browser-sync --save-dev` installed [Browser Sync](https://www.browsersync.io) and created the `node_modules` folder.
-
-### Editing package.json
-
-We will again be using [Browser Sync](https://www.browsersync.io) as our sample application.
-
-* Browser Sync [Command Line (CLI) documentation](https://www.browsersync.io/docs/command-line)
-
-Note the NPM script using the Browser Sync command line documentation:
+Note the NPM script using the Browser Sync [Command Line (CLI) documentation](https://www.browsersync.io/docs/command-line):
 
 ```js
   "scripts": {
@@ -62,10 +44,18 @@ Note the NPM script using the Browser Sync command line documentation:
   },
 ```
 
+Note the `.gitignore` file as well.
+
+Run `npm install`:
+
+```sh
+$ npm i
+```
+
 And run the process:
 
 ```sh
-$ npm run start
+$ npm run startmac // or startpc
 ```
 
 ## SASS
@@ -84,7 +74,9 @@ Note: the steps below were completed in the last class.
 
 Setting up SASS includes creating and defining an input folder for scss and an output folder for css.
 
-For VS Code you need to configure the Live SASS Compiler plug in.
+For VS Code you need to configure the Live SASS Compiler plug in in either a global or on a per project basis.
+
+Here is our minimal sample configuration (check out the `.vscode` directory) for today's project:
 
 ```
 {
@@ -102,26 +94,30 @@ For VS Code you need to configure the Live SASS Compiler plug in.
 }
 ```
 
-* Create a `scss` directory at the _top level_ of the project folder (e.g. not in the app folder)
-* Save or copy `styles.css` into it as `styles.scss` - note the `.scss` suffix
+Last class we:
 
-For today's class, I have created a folder `scss/imports` and a new file `scss/styles.scss`. Examine them. We will come back to them later.
+* Created a `scss` directory in the project folder 
+* Saved or copied `styles.css` into it renamed to `styles.scss` - note the `.scss` suffix
 
-Run the SASS processor and test your setup by temporarily adding the following to the scss file:
+Note: for today's class, I have created a folder `scss/imports` and a new file `scss/imports/_base.scss` together with changes to the `styles.scss` file. Examine them now. We will come back to them later.
+
+Run the SASS processor and test your setup by temporarily adding the following to the `_base.scss` file:
 
 ```css
-* { color red !important }
+* { color: red !important }
 ```
 
 And then view the output. Note the auto prefixing. See also git [postcss-preset-env](https://github.com/csstools/postcss-preset-env)
 
-### Node-sass
+### Sass
 
-You can also use NPM to install [node-sass](https://www.npmjs.com/package/node-sass) and use this via an npm script.
+You can also use NPM to install [sass](https://www.npmjs.com/package/sass) and use this via an npm script.
 
-Install node-sass via NPM as a developmental dependency.
+Turn off "Watch Sass" in VS Code if its running.
 
-`npm install node-sass --save-dev`
+Install sass via NPM as a developmental dependency.
+
+`npm install sass --save-dev`
 
 Add a script for processing:
 
@@ -134,23 +130,21 @@ Add a script for processing:
 
 Dart Sass CLI [documentation](https://sass-lang.com/documentation/file.SASS_REFERENCE.html)
 
-Test it by running `$ npm run startSass` and re-add the following to the `scss` file:
-
-```css
-* { color red !important }
-```
-
-We need to run both scripts at the same time.
-
-```sh
-$ npm install concurrently --save-dev
-```
+To run both scripts at the same time:
 
 ```js
 "scripts": {
   ...
-  "boom!": "concurrently 'npm run startmac' 'npm run startSass' "
+  "start": "npm run startmac & npm run startSass"
 },
+```
+
+And run `npm start` (the word 'run' is optional in this case).
+
+Test it by re-adding the following to the `_base.scss` file:
+
+```css
+* { color red !important }
 ```
 
 #### SASS variables
@@ -160,7 +154,7 @@ $basil-green: #88a308;
 $breakpoint-med: 640px;
 ```
 
-Usage:
+Usage example:
 
 ```css
 * { color: $basil-green }
@@ -192,6 +186,7 @@ $radius: .25rem;
 
 $fonts: 'Source Sans Pro', Helvetica, Clean, sans-serif;
 
+$basil-green: #88a308;
 $link: #007eb6;
 $cyan: #00aeef;
 $cyan10: #e2f4fd;
@@ -243,13 +238,29 @@ $gray-040: rgba(51,51,51,0.40);
 $gray-010: rgba(51,51,51,0.10);
 ```
 
+Add the above to a new `imports/_variables.scss` file and include it at the top of `styles.scss`: `@import 'imports/variables';`.
+
 #### SASS nesting 
 
 Sass will let you nest your CSS selectors in a way that follows the same visual hierarchy of your HTML. Be aware that overly nested rules will result in over-qualified CSS that could prove hard to maintain and is generally considered bad practice.
 
 One of the best things about nesting in SASS is how it allows you to simplify media queries and keep them aligned with the selector.
 
-Transform the `header.scss` file.
+#### SASS Partials and Imports
+
+Allow you to create separate function or feature specific style sheets using [imports](https://sass-lang.com/guide#topic-4) and helps maintain a large code base.
+
+Examples [Bootstrap](https://getbootstrap.com) and its [SASS roots](https://github.com/twbs/bootstrap-sass)
+
+Create `imports/_nav.scss` and cut the nested nav related material from `_base.scss` into it. Add it to the main stylesheet.
+
+<!-- * Create `scss/imports`
+* Cut and copy the newly nested code for header into a new document `scss/imports/_header.scss`
+* import it into `styles.scss` by adding `@import "imports/header";` to that file -->
+
+Note the underscore in the include.
+
+Create `imports/_header.scss` and add the following (remove the header related material from `_base.scss `).
 
 ```css
 header {
@@ -306,23 +317,11 @@ a.beta {
 }
 ```
 
-#### SASS Comments
+Note: SASS allows you to use JavaScript style comments - `//`. These comments do not get compiled into the css file. Traditional CSS comments ( `/* ... */` ) do.
 
-`//` SASS allows you to use JavaScript style comments. These comments do not get compiled into the css file. Traditional CSS comments ( `/* ... */` ) do.
+`@import 'app/css/futura/stylesheet.css';` vs `@import url(futura/stylesheet.css);`
 
-#### SASS Partials and Imports
-
-Allow you to create separate function or feature specific style sheets using [imports](https://sass-lang.com/guide#topic-4) and helps maintain a large code base.
-
-Examples [Bootstrap](https://getbootstrap.com) and its [SASS roots](https://github.com/twbs/bootstrap-sass)
-
-* Create `scss/imports`
-* Cut and copy the newly nested code for header into a new document `scss/imports/_header.scss`
-* import it into `styles.scss` by adding `@import "imports/header";` to that file
-
-Note the underscore in the include.
-
-## Review: CSS Grid
+## CSS Grid
 
 The [CSS Grid Cheatsheet](https://css-tricks.com/snippets/css/complete-guide-grid/) on CSS Tricks.
 
