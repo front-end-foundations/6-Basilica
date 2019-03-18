@@ -2,6 +2,7 @@
 
 html {
   --basil-green: #88a308;
+  --orange: #eabc5a;
   --dark-gray: #333333;
   --light-gray: #999999;
   --max-width: 840px;
@@ -56,6 +57,10 @@ h3 {
   margin: 8px 0;
   font-size: 1.4rem;
   letter-spacing: -1px;
+}
+
+h2 {
+  font-size: 2rem;
 }
 
 a {
