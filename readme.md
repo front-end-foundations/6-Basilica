@@ -1,14 +1,14 @@
 # VI - Basilica! JavaScript and SASS
 
+**Important:** DO NOT DOWNLOAD THE ZIP. See the command line instructions below.
+
 ## Homework
  
 * Change the popover behavior so it displays a different message for each of the three navigation buttons
 
 ## Command Line
 
-**Important:** Today you should NOT DOWNLOAD THE ZIP. 
-
-Instead, navigate to your Desktop (or wherever you want to work from) in the terminal. 
+Navigate to your Desktop (or wherever you want to work from) in the terminal. 
 
 ```sh
 $ cd ~ // go to your home directory OR
@@ -17,9 +17,11 @@ $ cd ~/Desk // tab completion
 $ pwd // print working directory
 ```
 
-Next, copy the URI to today's git repo:
+Next, copy the URI for today's git repo:
 
-<img src="app/other/clone.png" width="320" />
+<img src="app/other/clone.png" width="380" />
+
+Finally `clone` the repo into your Desktop (or other chosen directory) and `cd` into it.
 
 ```sh
 $ git clone https://github.com/front-end-foundations/6-Basilica.git
@@ -28,32 +30,11 @@ $ cd 6-Basilica
 
 ## Node Package Manager
 
-Review `npm init` and `npm install`:
+Since there is an existing `package.json` file we will not run `npm init`. 
 
-```sh
-$ npm install 
-```
+Examine `package.json`. We are using [Browser Sync](https://www.browsersync.io) as our sample application.
 
-Note:
-
-* package.json
-* dependencies
-* node_modules folder
-* `.gitignore`.
-
-`npm init` creates `package.json`.
-
-`touch .gitignore` created the `.gitignore` file (you could do this in the editor as well)
-
-`npm install browser-sync --save-dev` installed [Browser Sync](https://www.browsersync.io) and created the `node_modules` folder.
-
-### Editing package.json
-
-We will again be using [Browser Sync](https://www.browsersync.io) as our sample application.
-
-* Browser Sync [Command Line (CLI) documentation](https://www.browsersync.io/docs/command-line)
-
-Note the NPM script using the Browser Sync command line documentation:
+Note the NPM script using the Browser Sync [Command Line (CLI) documentation](https://www.browsersync.io/docs/command-line):
 
 ```js
   "scripts": {
@@ -62,10 +43,18 @@ Note the NPM script using the Browser Sync command line documentation:
   },
 ```
 
+Note the `.gitignore` file as well.
+
+Run `npm install`:
+
+```sh
+$ npm i
+```
+
 And run the process:
 
 ```sh
-$ npm run start
+$ npm run startmac
 ```
 
 ## SASS
