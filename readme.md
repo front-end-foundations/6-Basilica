@@ -6,18 +6,24 @@
 
 ## Command Line
 
-Navigate to today's project folder. 
+**Important:** Today you should NOT DOWNLOAD THE ZIP. 
 
-Reference:
+Instead, navigate to your Desktop (or wherever you want to work from) in the terminal. 
 
 ```sh
-$ cd ~ // go to your home directory
-$ cd // copy and paste the folder you want to go to (MacOS)
+$ cd ~ // go to your home directory OR
+$ cd // copy and paste the folder you want to go to OR
 $ cd ~/Desk // tab completion
-$ cd .. // go up one level
-$ ls // list files and folders
-$ ls -al  // flags expand the command
 $ pwd // print working directory
+```
+
+Next, copy the URI to today's git repo:
+
+<img src="app/other/clone.png" width="320" />
+
+```sh
+$ git clone https://github.com/front-end-foundations/6-Basilica.git
+$ cd 6-Basilica
 ```
 
 ## Node Package Manager
@@ -33,7 +39,7 @@ Note:
 * package.json
 * dependencies
 * node_modules folder
-* discuss the need for `.gitignore`.
+* `.gitignore`.
 
 `npm init` creates `package.json`.
 
@@ -62,40 +68,6 @@ And run the process:
 $ npm run start
 ```
 
-Quit the process with Control-c. Try adding a `--directory` option:
-
-```js
-  "scripts": {
-    "startmac": "browser-sync start --directory --server 'app' --files 'app'",
-    "startpc": "browser-sync start --directory --server \"app\" --files \"app\""
-  },
-```
-
-And `--browser` options (note the PC browser):
-
-```js
-"startmac": "browser-sync start --browser 'google chrome' --server 'app' --files 'app'"
-"startpc": "browser-sync start --browser \"chrome.exe\" --server \"app\" --files \"app\""
-```
-
-## Git
-
-Initialize a new local repository, add all the files to it, and do an initial commit:
-
-```sh
-$ git init
-$ git add .
-$ git commit -m 'Initial commit'
-```
-
-Create a new branch and check it out:
-
-```sh
-$ git branch <branchname>
-$ git checkout <branchname>
-$ git status
-```
-
 ## SASS
 
 [Syntactically Awesome Style Sheets](https://sass-lang.com) - SASS [adds features](http://sass-lang.com/guide) to css.
@@ -106,8 +78,13 @@ Apps that allow you to use SASS include:
 
 * [Koala](http://koala-app.com)
 * [Scout app](http://scout-app.io/)
+* and [more](https://sass-lang.com/install)
+
+Note: the steps below were completed in the last class.
 
 Setting up SASS includes creating and defining an input folder for scss and an output folder for css.
+
+For VS Code you need to configure the Live SASS Compiler plug in.
 
 ```
 {
@@ -125,21 +102,22 @@ Setting up SASS includes creating and defining an input folder for scss and an o
 }
 ```
 
-* Create a `scss` directory at the _top level_ of the project folder
-* Save or copy `styles.css` into it as `styles.scss` - note the `.scss` suffix 
-* Run the SASS processor and test your setup by adding something like the following to the scss file:
+* Create a `scss` directory at the _top level_ of the project folder (e.g. not in the app folder)
+* Save or copy `styles.css` into it as `styles.scss` - note the `.scss` suffix
+
+For today's class, I have created a folder `scss/imports` and a new file `scss/styles.scss`. Examine them. We will come back to them later.
+
+Run the SASS processor and test your setup by temporarily adding the following to the scss file:
 
 ```css
 * { color red !important }
 ```
 
-And then viewing the output.
-
-Note the output and auto prefixing. See also git [postcss-preset-env](https://github.com/csstools/postcss-preset-env)
+And then view the output. Note the auto prefixing. See also git [postcss-preset-env](https://github.com/csstools/postcss-preset-env)
 
 ### Node-sass
 
-You can use NPM to install [node-sass](https://www.npmjs.com/package/node-sass) and use this via an npm script.
+You can also use NPM to install [node-sass](https://www.npmjs.com/package/node-sass) and use this via an npm script.
 
 Install node-sass via NPM as a developmental dependency.
 
@@ -150,13 +128,13 @@ Add a script for processing:
 ```js
   "scripts": {
     ...
-    "startSass": "node-sass  --watch scss/styles.scss --output app/css/styles.css"
+    "startSass": "sass  scss/styles.scss app/css/styles.css --watch --source-map"
   },
 ```
 
-Node-sass CLI [documentation](https://github.com/sass/node-sass#command-line-interface)
+Dart Sass CLI [documentation](https://sass-lang.com/documentation/file.SASS_REFERENCE.html)
 
-Test it by running `$ npm run startSass` and add the following to the `scss` file:
+Test it by running `$ npm run startSass` and re-add the following to the `scss` file:
 
 ```css
 * { color red !important }
@@ -171,14 +149,9 @@ $ npm install concurrently --save-dev
 ```js
 "scripts": {
   ...
-  "startSass": "node-sass  --watch scss/styles.scss --output app/css/",
-  "boom!": "concurrently \"npm run start\" \"npm run startSass\" "
+  "boom!": "concurrently 'npm run startmac' 'npm run startSass' "
 },
 ```
-
-#### SASS Error Checking
-
-Intentionally create an error by removing the semi-colon from the first line in the scss file.
 
 #### SASS variables
 
@@ -187,75 +160,13 @@ $basil-green: #88a308;
 $breakpoint-med: 640px;
 ```
 
-#### SASS nesting 
-
-Sass will let you nest your CSS selectors in a way that follows the same visual hierarchy of your HTML. Be aware that overly nested rules will result in over-qualified CSS that could prove hard to maintain and is generally considered bad practice.
-
-One of the best things about nesting in SASS is how it allows you to simplify media queries and keep them aligned with the selector.
+Usage:
 
 ```css
-header {
-  position: relative;
-  height: 120px;
-  background: var(--basil-green);
-  border-radius: 8px 8px 0px 0px;
-  h1 {
-    background: url(img/basil.png) no-repeat;
-    font-family: FuturaStdLight, sans-serif;
-    font-weight: normal;
-    color: #fff;
-    font-size: 5rem;
-    @media (min-width: 640px){
-      padding-left: 240px;
-      padding-top: 90px;
-      transform: translate(-100px, -80px);
-      background-position: top left;
-    }
-  }
-  .beta {
-    background: url('img/burst.svg') no-repeat;
-    color: #fff;
-    font-size: 1.5rem;
-    position: absolute;
-    top: -20px;
-    right: 10px;
-    width: 85px;
-    height: 85px;
-    line-height: 85px;
-    text-align: center;
-    text-transform: uppercase;
-    transform: rotate(20deg);
-    transition: all 1s ease;
-    &:hover {
-      transform: rotate(0deg) scale(1.2);
-    }
-  }
-}
+* { color: $basil-green }
 ```
 
-Note the use of an ampersand for the hover pseudo selector.
-
-#### SASS Comments
-
-`//` SASS allows you to use JavaScript style comments. These comments do not get compiled into the css file. Traditional CSS comments ( `/* ... */` ) do.
-
-#### SASS Partials and Imports
-
-Allow you to create separate function or feature specific style sheets using [imports](https://sass-lang.com/guide#topic-4) and helps maintain a large code base.
-
-Examples [Bootstrap](https://getbootstrap.com) and its [SASS roots](https://github.com/twbs/bootstrap-sass)
-
-* Create `scss/imports`
-* Cut and copy the newly nested code for header into a new document `scss/imports/_header.scss`
-* import it into `styles.scss` by adding `@import "imports/header";` to the top of that file
-
-This also requires a slight alteration to the npm script for SASS. Quit the SASS processing and change it to read:
-
-`"startSass": "node-sass  --watch scss --output app/css/"`
-
-#### SASS Variables
-
-Variables for breakpoints and colors.
+Here is a larger example including variables for breakpoints and more:
 
 Example:
 
@@ -332,6 +243,85 @@ $gray-040: rgba(51,51,51,0.40);
 $gray-010: rgba(51,51,51,0.10);
 ```
 
+#### SASS nesting 
+
+Sass will let you nest your CSS selectors in a way that follows the same visual hierarchy of your HTML. Be aware that overly nested rules will result in over-qualified CSS that could prove hard to maintain and is generally considered bad practice.
+
+One of the best things about nesting in SASS is how it allows you to simplify media queries and keep them aligned with the selector.
+
+Transform the `header.scss` file.
+
+```css
+header {
+  position: relative;
+  height: 120px;
+  background: var(--basil-green);
+  border-radius: 8px 8px 0px 0px;
+  
+  h1 {
+    background: url(img/basil.png) no-repeat;
+    font-family: FuturaStdLight, sans-serif;
+    font-weight: normal;
+    color: #fff;
+    font-size: 5rem;
+    @media (min-width: 640px) {
+      padding-left: 240px;
+      padding-top: 90px;
+      transform: translate(-100px, -80px);
+      background-position: top left;
+    }
+  }
+  
+  a.beta {
+    background: url('img/burst.svg') no-repeat;
+    color: #fff;
+    font-size: 1.5rem;
+    position: absolute;
+    top: -20px;
+    right: 10px;
+    width: 85px;
+    height: 85px;
+    line-height: 85px;
+    text-align: center;
+    text-transform: uppercase;
+    transform: rotate(20deg);
+    transition: all 1s ease;
+  }
+  a.beta:hover {
+    transform: rotate(0deg) scale(1.2);
+  }
+}
+```
+
+Note the use of nesting to perform the media query.
+
+We can also use nesting and an ampersand for the hover pseudo selector:
+
+```css
+a.beta {
+  ...
+  &:hover {
+    transform: rotate(0deg) scale(1.2);
+  }
+}
+```
+
+#### SASS Comments
+
+`//` SASS allows you to use JavaScript style comments. These comments do not get compiled into the css file. Traditional CSS comments ( `/* ... */` ) do.
+
+#### SASS Partials and Imports
+
+Allow you to create separate function or feature specific style sheets using [imports](https://sass-lang.com/guide#topic-4) and helps maintain a large code base.
+
+Examples [Bootstrap](https://getbootstrap.com) and its [SASS roots](https://github.com/twbs/bootstrap-sass)
+
+* Create `scss/imports`
+* Cut and copy the newly nested code for header into a new document `scss/imports/_header.scss`
+* import it into `styles.scss` by adding `@import "imports/header";` to that file
+
+Note the underscore in the include.
+
 ## Review: CSS Grid
 
 The [CSS Grid Cheatsheet](https://css-tricks.com/snippets/css/complete-guide-grid/) on CSS Tricks.
@@ -343,33 +333,65 @@ Our use of Flexbox to style the content columns operates in a single (horizontal
 Note that in our document these are only used in wide screens:
 
 ```css
-@media (min-width: 600px){
-    .content {
-        display: grid;
-        grid-template-columns: 20% 20% 20% 20% 20%;
-        /*grid-template-rows: 20% 20% 20% 20% 20%;*/
-    }
-
-    article {
-        grid-column-start: 1;
-        grid-column-end: span 3;
-        grid-row-start: 1;
-        /*padding: 0.5rem;*/
-    }
-
-    aside {
-        grid-column-start: 4;
-        grid-column-end: span 2;
-        grid-row-start: 1;
-
-        background-color: #f5faef;
-        box-shadow: -4px 0px 4px #ddd;
-        padding: 0.5rem;
-    } 
+@media (min-width: 640px) {
+  .content{
+    display: grid;
+    grid-template-columns: 20% 20% 20% 20% 20%;
+    grid-template-rows: 20% 20% 20% 20% 20%;
+    grid-gap: 20px;
+  }
+  article {
+    grid-row-start: 1;
+    grid-column-start: 1;
+    grid-column-end: span 3;
+  }
+  aside {
+    grid-row-start: 1;
+    grid-column-start: 4;
+    grid-column-end: span 2;
+    
+    background: #f5faef;
+    box-shadow: -4px 0px 4px #ddd;
+  }
 }
 ```
 
-Let's edit it to use `fr` and `grid-column-gap`:
+We have some problems here due to the use of percentages (`20% * 5 + the grid-gap`).
+
+Create a new partial `_layout.scss` and cut and paste the following code into it.
+
+```css
+article,
+aside {
+  padding: 1rem;
+}
+
+@media (min-width: 600px){
+  .content {
+      display: grid;
+      grid-template-columns: 3fr 2fr;
+      grid-column-gap: 1rem;
+  }
+  article {
+      grid-column-start: 1;
+  }
+  aside {
+      grid-column-start: 2;
+      background-color: #f5faef;
+      box-shadow: -4px 0px 4px #ddd;
+      padding: 0.5rem;
+  } 
+}
+
+footer {
+  background-color: var(--basil-green);
+  padding: 1rem;
+  border-radius: 0 0 4px 4px;
+  margin-bottom: 2rem;
+}
+```
+
+We edited it to use `fr` - fractions:
 
 ```css
 @media (min-width: 600px){
@@ -377,15 +399,12 @@ Let's edit it to use `fr` and `grid-column-gap`:
         display: grid;
         grid-template-columns: 3fr 2fr;
         grid-column-gap: 1rem;
-        /*grid-template-rows: 20% 20% 20% 20% 20%;*/
     }
     article {
         grid-column-start: 1;
-        grid-row-start: 1;
     }
     aside {
         grid-column-start: 2;
-        grid-row-start: 1;
         background-color: #f5faef;
         box-shadow: -4px 0px 4px #ddd;
         padding: 0.5rem;
@@ -393,47 +412,213 @@ Let's edit it to use `fr` and `grid-column-gap`:
 }
 ```
 
-Note: while it is possible to use CSS Grid for the entire layout, it is not really necessary and adds unnecessary complexity:
+We can also use the repeat property. The `repeat` property requires a different property for the children:
 
 ```css
 @media (min-width: 600px){
-    body {
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: 120px 76px 1fr 160px;
-    }
-    header {
-        grid-column-start: 1;
-        grid-row-start: 1;
-    }
-    nav {
-        grid-column-start: 1;
-        grid-row-start: 2;
-    }
-    footer {
-        grid-column-start: 1;
-        grid-row-start: 4;
-    }
-    .content {
-        display: grid;
-        grid-template-columns: 3fr 2fr;
-        grid-column-gap: 1rem;
-    }
-    article {
-        grid-column-start: 1;
-        grid-row-start: 1;
-    }
-    aside {
-        grid-column-start: 2;
-        grid-row-start: 1;
-        background-color: #f5faef;
-        box-shadow: -4px 0px 4px #ddd;
-        padding: 0.5rem;
-    } 
+  .content {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      grid-column-gap: 1rem;
+  }
+  article {
+    grid-column: span 3;
+  }
+  aside {
+    grid-column: span 2;
+    background-color: #f5faef;
+    box-shadow: -4px 0px 4px #ddd;
+    padding: 0.5rem;
+  } 
 }
 ```
 
-## Review: JavaScript
+Note: while it is possible to use CSS Grid for the entire layout, it is not really necessary and adds unnecessary complexity.
+
+However we will use `grid-template-areas` in order to show the principle and a nested grid:
+
+```css
+article,
+aside {
+  padding: 1rem;
+}
+
+@media (min-width: 600px){
+  body {
+    display: grid;
+    grid-template-areas: 
+    "header" 
+    "nav" 
+    "content"
+    "footer";
+  }
+  header {
+    grid-area: header;
+  }
+  nav {
+    grid-area: nav;
+  }
+  .content {
+    grid-area: content;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-column-gap: 1rem;
+  }
+  article {
+    grid-column: span 3;
+  }
+  aside {
+    grid-column: span 2;
+    background-color: #f5faef;
+    box-shadow: -4px 0px 4px #ddd;
+    padding: 0.5rem;
+  } 
+  footer {
+    grid-area: footer;
+  }
+}
+
+footer {
+  background-color: var(--basil-green);
+  padding: 1rem;
+  border-radius: 0 0 4px 4px;
+  margin-bottom: 2rem;
+}
+```
+
+Commit your changes and checkout the `spring2019-done` branch.
+
+## JavaScript
+
+## Node Demo
+
+In a new folder `basils.js`
+
+```sh
+$ mkdir node
+$ cd node
+$ touch basil.js
+$ npm init
+$ npm install random-number
+```
+
+```js
+const randomNumber = require('random-number');
+
+const randomIndex = randomNumber({
+  min: 0,
+  max: 4,
+  integer: true
+});
+
+console.log(randomIndex);
+console.log(typeof randomNumber);
+console.log(typeof randomIndex);
+```
+
+```sh
+$ node basil.js
+```
+
+```js
+const randomNumber = require('random-number');
+
+const basilChef = ['mama', 'papa', 'baby'];
+const basilTexture = ['greasy', 'frozen', 'spicy'];
+
+function randomItem(array) {
+  const randomIndex = randomNumber({
+    min: 0,
+    max: array.length - 1,
+    integer: true,
+  });
+  return array[randomIndex];
+}
+
+console.log(basilChef);
+console.log(basilChef[0]);
+console.log(basilChef.length);
+console.log(randomItem(basilChef));
+```
+
+```sh
+$ node basil.js
+```
+
+```js
+const randomNumber = require('random-number');
+
+const basilChef = ['mama', 'papa', 'baby'];
+const basilTexture = ['greasy', 'frozen', 'spicy'];
+
+function randomItem(array) {
+  const randomIndex = randomNumber({
+    min: 0,
+    max: array.length - 1,
+    integer: true,
+  });
+  return array[randomIndex];
+}
+
+function makeBasil() {
+  return randomItem(basilChef) + '\'s' + ' ' + randomItem(basilTexture) + ' basil';
+}
+
+console.log(makeBasil());
+```
+
+```js
+function makeBasil() {
+  return (
+    '<h2>' + randomItem(basilChef) + "'s" + ' ' + randomItem(basilTexture) + ' basil' + '</h2>'
+  );
+}
+```
+
+Template strings:
+
+```js
+function makeBasil() {
+  return (
+    `<h2>${randomItem(basilChef)}'s ${randomItem(basilTexture)} basil</h2>`
+  );
+}
+```
+
+In `scripts.js`:
+
+```js
+const el = document.querySelector('div.content')
+
+function randomName(array) {
+  const min = 0;
+  const max = array.length - 1
+  const randomIndex = Math.floor(Math.random() * (max + 1));
+  return array[randomIndex];
+}
+
+const makeBasil = () => {
+  const basilChef = ['mama', 'papa', 'baby'];
+  const basilTexture = ['greasy', 'frozen', 'spicy'];
+
+  return `
+  <h2>${randomName(basilChef)}'s ${randomName(basilTexture)} basil</h2>
+  `
+};
+
+console.log(makeBasil());
+
+el.innerHTML = makeBasil()
+```
+
+```css
+h2 {
+  font-size: 2rem;
+  text-transform: capitalize
+}
+```
+
+## Popover
 
 Building the popover window.
 
@@ -448,17 +633,16 @@ Create and style a div on the bottom of the page.
 
 ```css
 .betainfo {
-    width: 50%;
-    padding: 1rem;
-    background: #fff;
-    border: 2px solid #eabc5a;
-    border-radius: 0.25rem;
-    position: fixed;
-    z-index: 2000;
-    top: 50%;
-    left: 50%;
-    margin: -25% 0 0 -25%;
-    /*display: none;*/
+  width: 300px;
+  height: 150px;
+  padding: 0.5rem;
+  background: #fff;
+  border: 4px solid var(--orange);
+  border-radius: 0.25rem;
+  position: fixed;
+  top: calc(50% - 75px);
+  left: calc(50% - 150px);
+  /*display: none;*/
 }
 ```
 
@@ -524,7 +708,7 @@ Add html to the betainfo:
     <h2>In Beta</h2>
     <p>Information about the beta program.</p>
         <!-- NEW -->
-    <a class="closer" href="#0">X</a> 
+    <a class="closer" href="#0">✖︎</a> 
 </div>
 ```
 
@@ -532,16 +716,18 @@ Style it:
 
 ```css
 .closer {
-    position: absolute;
-    top: -10px;
-    right: -10px;
-    width: 1.5rem;
-    height: 1.5rem;
-    background: #fff;
-    border: 2px solid #eabc5a;
-    border-radius: 50%;
-    text-align: center;
-    line-height: 1.5rem;
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 1.5rem;
+  height: 1.5rem;
+  background: #fff;
+  color: var(--dark-gray);
+  border: 3px solid #eabc5a;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 0.25rem;
+  cursor: pointer;
 }
 ```
 
@@ -561,7 +747,7 @@ function showPopover() {
 }
 ```
 
-Add a shader to block access to the page and make the window modal:
+Add a shader after the body tag to block access to the page and make the window modal:
 
 ```html
 <div class="shader"></div>
@@ -602,6 +788,29 @@ function showPopover() {
 }
 ```
 
+Check the cascade and add z-indexes as appropriate.
+
+Killing the scrollbar
+
+```js
+function showPopover() {
+    popoverWindow.classList.toggle('show'); // NEW
+    shader.classList.toggle('show')  // NEW
+    body.classList.toggle('hidden')
+    event.preventDefault();
+}
+```
+
+```css
+.hidden header,
+.hidden nav,
+.hidden .content,
+.hidden footer
+{
+  display: none;
+}
+```
+
 ## A Dynamic Popover
 
 We will create the popover using JavaScript. By making our popover dynamic we will be able to reuse it elsewhere on our page.
@@ -618,7 +827,7 @@ Comment out or delete the current div at the bottom of our page:
 
 ### createElement
 
-You can use the `document.createElement()` method to create an element. E.g.:
+You can use the `document.createElement()` method to create an element, e.g.:
 
 ```js
 > var div = document.createElement('div');
@@ -634,6 +843,8 @@ div.id = 'new-div';
 div.setAttribute('data-div', 'new');
 div.style.color = '#fff';
 div.style.backgroundColor = 'rebeccapurple';
+// add some text
+div.textContent = 'Nice work, dude!';
 ```
 
 ### append 
@@ -641,9 +852,6 @@ div.style.backgroundColor = 'rebeccapurple';
 After you create an element, you need a way to add it to your page. JavaScript provides a handful of methods you can use to add an element before, after, or within some other element in the DOM.
 
 ```js
-// Create a new HTML element as above and add some text
-div.textContent = 'Nice work, dude!';
-
 // Get the element to add your new HTML element before, after, or within
 var target = document.querySelector('.content');
 
@@ -690,7 +898,7 @@ var elem = document.querySelector('.content');
 elem.innerText = 'Welcome my friends to the show that never ends.';
 ```
 
-Since we are creating our div we will delete the current div:
+Since we are creating our div we can delete the current div:
 
 ```html
 <div class="betainfo">
@@ -911,6 +1119,7 @@ Let's use our new popover to display a message when the user clicks on any of th
 
 
 Add a class `it` to each of the nav bottons:
+
 ```html
 <nav>
     <p>Bonjour Monsieur Ferme</p>
@@ -980,7 +1189,9 @@ The line `makePopover(itContent);` passes the variable we want to display to the
 Let's use that by first catching it or passing it in to the function as a variable:
 
 ```js
-function makePopover(content) 
+function makePopover(content) {
+  ...
+}
 ```
 
 And then making the contents of the popover dependent on the value of the variable:
