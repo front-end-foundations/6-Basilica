@@ -491,13 +491,13 @@ Commit your changes and checkout the `spring2019-done` branch.
 
 ## Node Demo
 
-In a new folder `basils.js`
+In a new temp folder: `basilnode.js`
 
 ```sh
 $ mkdir node
 $ cd node
-$ touch basil.js
-$ npm init
+$ touch basilnode.js
+$ npm init -y
 $ npm install random-number
 ```
 
@@ -516,7 +516,7 @@ console.log(typeof randomIndex);
 ```
 
 ```sh
-$ node basil.js
+$ node basilnode.js
 ```
 
 ```js
@@ -537,11 +537,12 @@ function randomItem(array) {
 console.log(basilChef);
 console.log(basilChef[0]);
 console.log(basilChef.length);
+
 console.log(randomItem(basilChef));
 ```
 
 ```sh
-$ node basil.js
+$ node basilnode.js
 ```
 
 ```js
@@ -584,10 +585,16 @@ function makeBasil() {
 }
 ```
 
+Create `scripts.js` in the `js` folder and add it to `index.html`:
+
+```html
+<script src="js/scripts.js"></script>
+```
+
 In `scripts.js`:
 
 ```js
-const el = document.querySelector('div.content')
+const el = document.querySelector('div.content h2')
 
 function randomName(array) {
   const min = 0;
@@ -626,11 +633,9 @@ Create and style a div on the bottom of the page.
 ```html
 <div class="betainfo">
     <h2>In Beta</h2>
-    <p>Information about the beta program.<p>
+    <p>Information about the beta program.</p>
 </div>
 ```
-
-Reindent and correct.
 
 In `_header.scss`:
 
@@ -649,7 +654,7 @@ In `_header.scss`:
 }
 ```
 
-Uncomment `display: none` and add a `show` class to `_base.scss`:
+Uncomment `display: none` and add a `show` class:
 
 ```css
 .show {
@@ -661,37 +666,16 @@ Test by adding the class in the inspector and make any needed corrections.
 
 Code the `.beta` button to show the window.
 
-Create `scripts.js` in the `js` folder and add it to `index.html`:
-
-```html
-
-```
-
 Create a variable for the beta button, attach an event listener to it, and create a function to handle the event.
 
 ```js
+var popoverWindow = document.querySelector('.betainfo');
 var betaButton = document.querySelector('.beta');
 
 betaButton.addEventListener('click', showPopover);
 
 function showPopover() {
-    alert('clicked');
-    event.preventDefault();
-}
-```
-
-_Note the 'Event Listeners' list in Chrome's developer tools._
-
-Edit the function to show the pop over window using classList.
-
-```js
-var popoverWindow = document.querySelector('.betainfo'); // NEW
-var betaButton = document.querySelector('.beta');
-
-betaButton.addEventListener('click', showPopover);
-
-function showPopover() {
-    popoverWindow.classList.toggle('show'); // NEW
+    popoverWindow.classList.toggle('show');
     event.preventDefault();
 }
 ```
@@ -703,12 +687,6 @@ function showPopover() {
 * Use [addEventListener('event', function)](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener), to listen for events on an element. You can find a full list of available events on the [Mozilla Developer Network](https://developer.mozilla.org/en-US/docs/Web/Events)
 * Use [Functions](https://developer.mozilla.org/en-US/docs/Glossary/Function) to store and execute your commands
 * Use [classList](https://plainjs.com/javascript/attributes/adding-removing-and-testing-for-classes-9/) to add, remove, toggle, list and test for classes:
-
-```js
-if (elem.classList.contains('.betainfo')) {
-    // Do something...
-}
-```
 
 ### Add Another Close Method
 
@@ -828,7 +806,7 @@ function showPopover() {
 
 We will recreate the popover HTML using JavaScript. One advantage of making our popover dynamic is that we will be able to reuse it elsewhere on our page.
 
-Delete the current div at the bottom of our page:
+Delete the betainfo div at the bottom of our page:
 
 ```html
 <!-- <div class="betainfo">
@@ -838,9 +816,13 @@ Delete the current div at the bottom of our page:
 </div> -->
 ```
 
+And remove the JavaScript related to it in scripts.js.
+
 ### createElement
 
-You can use the `document.createElement()` method to create an element, e.g.:
+You can use the `document.createElement()` method to create an element.
+
+In the browser's console e.g.:
 
 ```js
 > var div = document.createElement('div');
@@ -871,7 +853,7 @@ First grab a target:`
 
 ```js
 // Get the element to add your new HTML element before, after, or within
-var target = document.querySelector('.content');
+var target = document.querySelector('.content h2');
 ```
 
 Then use the appropriate method:
@@ -890,7 +872,7 @@ target.prepend(div);
 target.append(div);
 ```
 
-Try it again with the `betainfo` class. **Remove the `display: none` property first.**
+Try it again with the `betainfo` class. **Remove the `display: none` property from the betainfo css first.**
 
 ```js
 var div = document.createElement('div');
@@ -903,13 +885,15 @@ div.textContent = 'Nice work, dude!';
 
 ```js
 div
-var target = document.querySelector('.content');
+var target = document.querySelector('header');
 target.before(div);
 ```
 
 ### innerHTML
 
 The innerHTML property can be used to both get and set HTML content in an element.
+
+In the console:
 
 ```js
 var elem = document.querySelector('.content');
@@ -922,7 +906,8 @@ html
 elem.innerHTML = '<p>We can dynamically change the HTML including HTML elements like <a href="#">this link</a>.</p>';
 
 // Add += HTML to the end of an element's existing content
-elem.innerHTML += ' <p>Add this after what is already there.</p>';
+elem.innerHTML = elem.innerHTML + '<p>Add this after what is already there.</p>';
+elem.innerHTML += '<p>Add this after what is already there.</p>';
 
 // Add HTML to the beginning of an element's existing content
 elem.innerHTML = '<p>We can add this to the beginning.</p>' + elem.innerHTML;
@@ -935,7 +920,7 @@ var elem = document.querySelector('.content');
 elem.innerText = '<p>Welcome back my friends to the show that never ends.</p>';
 ```
 
-Notice how it escapes the HTML.
+Notice how it show the HTML tags as text.
 
 Since we are creating our div we deleted the current 'hardcoded' div:
 
@@ -947,33 +932,7 @@ Since we are creating our div we deleted the current 'hardcoded' div:
 </div>
 ```
 
-And overwrite the contents of `scripts.js` with the following:
-
-```js
-var betaButton = document.querySelector('.beta')
-betaButton.addEventListener('click', makePopover)
-
-function makePopover() {
-  var popover = document.createElement('div');
-  popover.classList.add('betainfo');
-  var popoverContent = '<h2>Testing</h2>';
-  popover.innerHTML = popoverContent;
-  document.querySelector('body').append(popover);
-}
-```
-
-Click on the beta button and note the div in the source html. 
-
-Make sure you have removed the `display: none` property from betainfo's css:
-
-```css
-.betainfo {
-    ...
-    /* display: none; */
-}
-```
-
-Let's add more content and our close button.
+Add to `scripts.js`:
 
 ```js
 var betaButton = document.querySelector('.beta')
@@ -988,18 +947,20 @@ function makePopover() {
 }
 ```
 
+Click on the beta button and note the div in the source html. 
+
 Note the long line for the popoverContent variable. Fortunately we can use a template string instead.
 
 Note the use of back ticks:
 
 ```js
-  var popoverContent = `
-  <h2>In Beta</h2>
-  <p>Information about the beta program.<p>
-  <div class="closer" href="#0">
-  <div>✖︎</div>
-  </div>
-  `
+var popoverContent = `
+<h2>In Beta</h2>
+<p>Information about the beta program.<p>
+<div class="closer" href="#0">
+<div>✖︎</div>
+</div>
+`
 ```
 
 E.g.:
@@ -1023,7 +984,7 @@ function makePopover() {
 }
 ```
 
-Now, let's add the close functionality ('destroyPopover') back in:
+Now, let's add the close functionality ('destroyPopover') back in using the opposite of `append()`: `remove()`:
 
 ```js
 var betaButton = document.querySelector('.beta')
@@ -1065,7 +1026,7 @@ function destroyPopover() {
 }
 ```
 
-We are going to use a technique called 'event delegation' in order to further abstract the click event so we can use it elsewhere on the page.
+We can use 'event delegation' in order to further abstract the click event so we can use it elsewhere on the page.
 
 Replace the event listener and add a new function:
 
@@ -1106,7 +1067,6 @@ function makePopover() {
 }
 
 function destroyPopover() {
-  console.log('boo')
     document.querySelector('.betainfo').remove();
     event.preventDefault()
 }
@@ -1165,7 +1125,7 @@ function decide() {
 }
 ```
 
-If clicking on the x isn't working you can add a class to it:
+<!-- If clicking on the x isn't working you can add a class to it:
 
 ```js
     var popoverContent = `
@@ -1188,7 +1148,7 @@ function decide() {
         destroyPopover()
     }
 }
-```
+``` -->
 
 Let's use our new popover to display a message when the user clicks on any of the three nav buttons:
 
@@ -1248,14 +1208,14 @@ Now let's decide which item is clicked on and use that to determine the message:
 
 ```js
 function decide() {
-    console.log(event.target);
-    if (event.target.matches('.beta')) {
-        makePopover(betaContent); // NEW
-    } else if (event.target.matches('.it')) { // NEW
-        makePopover(itContent); // NEW
-    } else if (event.target.matches('.closex')) {
-        destroyPopover()
-    }
+  console.log(event.target);
+  if (event.target.matches('.beta')) {
+      makePopover(betaContent); // NEW
+  } else if (event.target.matches('.it')) { // NEW
+      makePopover(itContent); // NEW
+  } else if (event.target.matches('.closex')) {
+      destroyPopover()
+  }
 }
 ```
 
@@ -1272,10 +1232,18 @@ function makePopover(content) {
 And then making the contents of the popover dependent on the value of the variable:
 
 ```js
-popover.innerHTML = content; 
+function makePopover(content) {
+  var popover = document.createElement('div');
+  popover.classList.add('betainfo');
+  popover.innerHTML = content; 
+  document.querySelector('body').append(popover);
+  
+  var popoverCloseButton = document.querySelector('.closer')
+  popoverCloseButton.addEventListener('click', destroyPopover)
+}
 ```
 
-Because we are using event delegation we can remove the following
+Because we are using event delegation we can remove the following uneeded lines:
 
 ```js
 // var popoverCloseButton = document.querySelector('.closer')
@@ -1339,7 +1307,7 @@ function destroyPopover() {
 
 ## Debugging
 
-Note that the popovers seem to accumulate and become difficult to destroy. 
+Note that the popovers accumulate and become difficult to destroy.
 
 Let's add a test to see if a popover already exists and destroy it before creating a new one:
 
