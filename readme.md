@@ -319,7 +319,7 @@ a.beta {
 
 Note: SASS allows you to use JavaScript style comments - `//`. These comments do not get compiled into the css file. Traditional CSS comments ( `/* ... */` ) do.
 
-`@import 'app/css/futura/stylesheet.css';` vs `@import url(futura/stylesheet.css);`
+<!-- `@import 'app/css/futura/stylesheet.css';` vs `@import url(futura/stylesheet.css);` -->
 
 ## CSS Grid
 
@@ -630,6 +630,10 @@ Create and style a div on the bottom of the page.
 </div>
 ```
 
+Reindent and correct.
+
+In `_header.scss`:
+
 ```css
 .betainfo {
   width: 300px;
@@ -645,15 +649,23 @@ Create and style a div on the bottom of the page.
 }
 ```
 
-Add `display: none` to the beta window and the show class to the css
+Uncomment `display: none` and add a `show` class to `_base.scss`:
 
 ```css
 .show {
-    display: block;
+  display: block;
 }
 ```
 
+Test by adding the class in the inspector and make any needed corrections.
+
 Code the `.beta` button to show the window.
+
+Create `scripts.js` in the `js` folder and add it to `index.html`:
+
+```html
+
+```
 
 Create a variable for the beta button, attach an event listener to it, and create a function to handle the event.
 
@@ -668,7 +680,7 @@ function showPopover() {
 }
 ```
 
-_Note the 'Event Listeners' list in the developer tools._
+_Note the 'Event Listeners' list in Chrome's developer tools._
 
 Edit the function to show the pop over window using classList.
 
@@ -721,7 +733,7 @@ Style it:
   width: 1.5rem;
   height: 1.5rem;
   background: #fff;
-  color: var(--dark-gray);
+  color: var(--orange);
   border: 3px solid #eabc5a;
   border-radius: 50%;
   text-align: center;
@@ -729,6 +741,8 @@ Style it:
   cursor: pointer;
 }
 ```
+
+Adjust the line height property to center the ✖︎.
 
 Extend the functionality of the script.
 
@@ -746,7 +760,7 @@ function showPopover() {
 }
 ```
 
-Add a shader after the body tag to block access to the page and make the window modal:
+Add a shader div after the body tag to block access to the page and make the window modal:
 
 ```html
 <div class="shader"></div>
@@ -766,30 +780,30 @@ Add styling:
 }
 ```
 
-Change position absolute to position fixed and add a z-index.
-
 Add it to the script:
 
 ```js
-var popoverWindow = document.querySelector('.betainfo'); // NEW
+var popoverWindow = document.querySelector('.betainfo'); 
 var betaButton = document.querySelector('.beta');
-var popoverCloseButton = document.querySelector('.closer');  // NEW
+var popoverCloseButton = document.querySelector('.closer'); 
 var shader = document.querySelector('.shader')  // NEW
 
 betaButton.addEventListener('click', showPopover);
-popoverCloseButton.addEventListener('click', showPopover);  // NEW
+popoverCloseButton.addEventListener('click', showPopover); 
 shader.addEventListener('click', showPopover)  // NEW
 
 function showPopover() {
-    popoverWindow.classList.toggle('show'); // NEW
+    popoverWindow.classList.toggle('show'); 
     shader.classList.toggle('show')  // NEW
     event.preventDefault();
 }
 ```
 
-Check the cascade and add z-indexes as appropriate.
+Test. Change `position absolute` to `position fixed` and add a `z-index`.
 
-Killing the scrollbar
+<!-- Check the cascade and add z-indexes as appropriate.
+
+Aside: Killing the scrollbar
 
 ```js
 function showPopover() {
@@ -808,13 +822,13 @@ function showPopover() {
 {
   display: none;
 }
-```
+``` -->
 
 ## A Dynamic Popover
 
-We will create the popover using JavaScript. By making our popover dynamic we will be able to reuse it elsewhere on our page.
+We will recreate the popover HTML using JavaScript. One advantage of making our popover dynamic is that we will be able to reuse it elsewhere on our page.
 
-Comment out or delete the current div at the bottom of our page:
+Delete the current div at the bottom of our page:
 
 ```html
 <!-- <div class="betainfo">
@@ -835,6 +849,8 @@ You can use the `document.createElement()` method to create an element, e.g.:
 
 You can manipulate an element created with `createElement()` like you would any other element in the DOM. Add classes, attributes, styles, and more.
 
+In the browser's console:
+
 ```js
 var div = document.createElement('div');
 div.className = 'new-div';
@@ -844,16 +860,23 @@ div.style.color = '#fff';
 div.style.backgroundColor = 'rebeccapurple';
 // add some text
 div.textContent = 'Nice work, dude!';
+div
 ```
 
 ### append 
 
 After you create an element, you need a way to add it to your page. JavaScript provides a handful of methods you can use to add an element before, after, or within some other element in the DOM.
 
+First grab a target:`
+
 ```js
 // Get the element to add your new HTML element before, after, or within
 var target = document.querySelector('.content');
+```
 
+Then use the appropriate method:
+
+```js
 // Inject the `div` element before the element
 target.before(div);
 
@@ -867,37 +890,54 @@ target.prepend(div);
 target.append(div);
 ```
 
+Try it again with the `betainfo` class. **Remove the `display: none` property first.**
+
+```js
+var div = document.createElement('div');
+div.className = 'betainfo';
+div.style.color = '#fff';
+div.style.backgroundColor = 'rebeccapurple';
+// add some text
+div.textContent = 'Nice work, dude!';
+```
+
+```js
+div
+var target = document.querySelector('.content');
+target.before(div);
+```
+
 ### innerHTML
 
 The innerHTML property can be used to both get and set HTML content in an element.
 
 ```js
 var elem = document.querySelector('.content');
-
+elem
 // Get HTML content
 var html = elem.innerHTML;
+html
 
 // Set HTML content
-elem.innerHTML = 'We can dynamically change the HTML. We can even include HTML elements like <a href="#">this link</a>.';
+elem.innerHTML = '<p>We can dynamically change the HTML including HTML elements like <a href="#">this link</a>.</p>';
 
-// Add HTML to the end of an element's existing content
-elem.innerHTML += ' Add this after what is already there.';
+// Add += HTML to the end of an element's existing content
+elem.innerHTML += ' <p>Add this after what is already there.</p>';
 
 // Add HTML to the beginning of an element's existing content
-elem.innerHTML = 'We can add this to the beginning. ' + elem.innerHTML;
-
-// You can inject entire elements into other ones, too
-elem.innerHTML += '<p>A new paragraph</p>';
+elem.innerHTML = '<p>We can add this to the beginning.</p>' + elem.innerHTML;
 ```
 
 Note: there is also an `innerText` property available. It works just like `innerHTML`, but only gets the text of an element and omits the markup.
 
 ```js
 var elem = document.querySelector('.content');
-elem.innerText = 'Welcome my friends to the show that never ends.';
+elem.innerText = '<p>Welcome back my friends to the show that never ends.</p>';
 ```
 
-Since we are creating our div we can delete the current div:
+Notice how it escapes the HTML.
+
+Since we are creating our div we deleted the current 'hardcoded' div:
 
 ```html
 <div class="betainfo">
@@ -924,7 +964,7 @@ function makePopover() {
 
 Click on the beta button and note the div in the source html. 
 
-Remove the `display: none` property from the css:
+Make sure you have removed the `display: none` property from betainfo's css:
 
 ```css
 .betainfo {
@@ -948,7 +988,7 @@ function makePopover() {
 }
 ```
 
-Note the long line - line number 7. A string ( `' '` ) cannot be broken to make things easier to read. Fortunately we can use a template string instead.
+Note the long line for the popoverContent variable. Fortunately we can use a template string instead.
 
 Note the use of back ticks:
 
@@ -961,6 +1001,8 @@ Note the use of back ticks:
   </div>
   `
 ```
+
+E.g.:
 
 ```js
 var betaButton = document.querySelector('.beta')
@@ -1033,6 +1075,40 @@ document.addEventListener('click', decide, false)
 
 function decide() {
     console.log(event.target);
+}
+```
+
+E.g.:
+
+```js
+// betaButton.addEventListener('click', makePopover)
+document.addEventListener('click', decide, false)
+
+function decide() {
+    console.log(event.target);
+}
+
+function makePopover() {
+  var popover = document.createElement('div');
+  popover.classList.add('betainfo');
+  var popoverContent = `
+  <h2>In Beta</h2>
+  <p>Information about the beta program.<p>
+  <div class="closer" href="#0">
+    <div>✖︎</div>
+  </div>
+  `
+  popover.innerHTML = popoverContent;
+  document.querySelector('body').append(popover);
+  
+  var popoverCloseButton = document.querySelector('.closer') 
+  popoverCloseButton.addEventListener('click', destroyPopover) 
+}
+
+function destroyPopover() {
+  console.log('boo')
+    document.querySelector('.betainfo').remove();
+    event.preventDefault()
 }
 ```
 
