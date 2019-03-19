@@ -3,8 +3,9 @@
 **Important: DO NOT DOWNLOAD THE ZIP.** See the command line instructions below.
 
 ## Homework
- 
-* Change the popover behavior so it displays a different message for each of the three navigation buttons
+
+* Review the steps below, Googling anything that is difficult or unclear to you
+* Change the popover behavior so it displays a different message for each of the three navigation buttons. The popovers that result from clicking on the nav buttons should look different (new CSS) than the popover that results from clicking on the BETA buton.
 * Develop a final project proposal - focus on the content you will need
 
 ## Command Line
@@ -508,6 +509,8 @@ $ npm init -y
 $ npm install random-number
 ```
 
+In `basilnode.js`:
+
 ```js
 const randomNumber = require('random-number');
 
@@ -521,6 +524,8 @@ console.log(randomIndex);
 console.log(typeof randomNumber);
 console.log(typeof randomIndex);
 ```
+
+At the command line:
 
 ```sh
 $ node basilnode.js
@@ -627,7 +632,7 @@ el.innerHTML = makeBasil()
 ```css
 h2 {
   font-size: 2rem;
-  text-transform: capitalize
+  text-transform: capitalize 
 }
 ```
 
@@ -825,9 +830,57 @@ Delete the betainfo div at the bottom of our page:
 
 And remove the JavaScript related to it in scripts.js.
 
+We will retain all the CSS in `_header.scss` for use in our new popover:
+
+```css
+.betainfo {
+  width: 300px;
+  height: 150px;
+  padding: 0.5rem;
+  background: #fff;
+  border: 4px solid var(--orange);
+  border-radius: 0.25rem;
+  position: fixed;
+  z-index: 201;
+  top: calc(50% - 75px);
+  left: calc(50% - 150px);
+  display: none;
+}
+
+.closer {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 1.5rem;
+  height: 1.5rem;
+  background: #fff;
+  color: var(--orange);
+  border: 3px solid #eabc5a;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 1.10rem;
+  cursor: pointer;
+}
+
+.shader {
+  position: fixed;
+  z-index: 200;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.5);
+  height: 100vh;
+  width: 100vw;
+  display: none;
+}
+
+.show {
+  display: block;
+}
+```
+
 ### createElement
 
-You can use the `document.createElement()` method to create an element.
+You use the `document.createElement()` [method](https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement) to create an HTML element.
 
 In the browser's console e.g.:
 
@@ -879,7 +932,9 @@ target.prepend(div);
 target.append(div);
 ```
 
-Try it again with the `betainfo` class. **Remove the `display: none` property from the betainfo css first.**
+Try it again with the `betainfo` class. 
+
+**Remove the `display: none` property from the betainfo css first.**
 
 ```js
 var div = document.createElement('div');
@@ -929,7 +984,7 @@ elem.innerText = '<p>Welcome back my friends to the show that never ends.</p>';
 
 Notice how it show the HTML tags as text.
 
-Since we are creating our div we deleted the current 'hardcoded' div:
+Since we are creating our div dynamically we deleted the 'hardcoded' div:
 
 ```html
 <div class="betainfo">
@@ -948,7 +1003,7 @@ betaButton.addEventListener('click', makePopover)
 function makePopover() {
   var popover = document.createElement('div');
   popover.classList.add('betainfo');
-  var popoverContent = '<h2>Testing</h2><p>Information about the beta program.<p><div class="closer" href="#0"><div>✖︎</div></div>'; // NEW
+  var popoverContent = '<h2>Beta Only!</h2><p>Information about the beta program.<p><div class="closer" href="#0"><div>✖︎</div></div>'; // NEW
   popover.innerHTML = popoverContent;
   document.querySelector('body').append(popover);
 }
@@ -991,7 +1046,7 @@ function makePopover() {
 }
 ```
 
-Now, let's add the close functionality ('destroyPopover') back in using the opposite of `append()`: `remove()`:
+Now, let's add the close functionality ('destroyPopover') back in. We cannot use `classList` to toggle the display property here so we will use the opposite of `append()` which is `remove()`:
 
 ```js
 var betaButton = document.querySelector('.beta')
@@ -1020,18 +1075,9 @@ function destroyPopover() {
 }
 ```
 
-Note that we do not create `var popoverCloseButton` or attach an event listener until we have created a popover. Otherwise we would get an error:
+Note that we do not create `var popoverCloseButton` or attach an event listener until we have created a popover. Otherwise we would get an error.
 
-```js
-var popoverCloseButton = document.querySelector('.closer') // NEW
-popoverCloseButton.addEventListener('click', destroyPopover) // NEW
-
-// NEW
-function destroyPopover() {
-    document.querySelector('.betainfo').remove();
-    event.preventDefault()
-}
-```
+## Event Delegation
 
 We can use 'event delegation' in order to further abstract the click event so we can use it elsewhere on the page.
 
@@ -1228,7 +1274,7 @@ function decide() {
 
 The line `makePopover(itContent);` passes the variable we want to display to the makePopover function.
 
-Let's use that by first catching it or passing it in to the function as a variable:
+Let's use that by first catching it or passing it into the function as a variable:
 
 ```js
 function makePopover(content) {
@@ -1242,7 +1288,7 @@ And then making the contents of the popover dependent on the value of the variab
 function makePopover(content) {
   var popover = document.createElement('div');
   popover.classList.add('betainfo');
-  popover.innerHTML = content; 
+  popover.innerHTML = content;  // NEW
   document.querySelector('body').append(popover);
   
   var popoverCloseButton = document.querySelector('.closer')
