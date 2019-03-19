@@ -1,11 +1,11 @@
 # VI - Basilica! JavaScript and SASS
 
-**Important:** DO NOT DOWNLOAD THE ZIP. See the command line instructions below.
+**Important: DO NOT DOWNLOAD THE ZIP.** See the command line instructions below.
 
 ## Homework
  
 * Change the popover behavior so it displays a different message for each of the three navigation buttons
-* Develop a final project proposal
+* Develop a final project proposal - focus on the content you will need
 
 ## Command Line
 
@@ -31,7 +31,7 @@ $ cd 6-Basilica
 
 ## Node Package Manager
 
-Since there is an existing `package.json` file we will not run `npm init`. 
+Since there is an existing `package.json` file we need not run `npm init`. 
 
 Examine `package.json`. We are using [Browser Sync](https://www.browsersync.io) as our sample application.
 
@@ -74,7 +74,7 @@ Note: the steps below were completed in the last class.
 
 Setting up SASS includes creating and defining an input folder for scss and an output folder for css.
 
-For VS Code you need to configure the Live SASS Compiler plug in in either a global or on a per project basis.
+For VS Code's Live SASS Compiler you need to configure on either a global or a per project basis.
 
 Here is our minimal sample configuration (check out the `.vscode` directory) for today's project:
 
@@ -107,7 +107,7 @@ Run the SASS processor and test your setup by temporarily adding the following t
 * { color: red !important }
 ```
 
-And then view the output. Note the auto prefixing. See also git [postcss-preset-env](https://github.com/csstools/postcss-preset-env)
+And then view the output. Note the auto prefixing in the css output and the effect of the `.map` file in the inspector. 
 
 ### Sass
 
@@ -115,11 +115,11 @@ You can also use NPM to install [sass](https://www.npmjs.com/package/sass) and u
 
 Turn off "Watch Sass" in VS Code if its running.
 
-Install sass via NPM as a developmental dependency.
+Stop the server with control-c and install sass via NPM as a developmental dependency.
 
 `npm install sass --save-dev`
 
-Add a script for processing:
+Add a script to package.json for processing:
 
 ```js
   "scripts": {
@@ -130,7 +130,7 @@ Add a script for processing:
 
 Dart Sass CLI [documentation](https://sass-lang.com/documentation/file.SASS_REFERENCE.html)
 
-To run both scripts at the same time:
+To run both scripts at the same time add this to package.json:
 
 ```js
 "scripts": {
@@ -144,20 +144,18 @@ And run `npm start` (the word 'run' is optional in this case).
 Test it by re-adding the following to the `_base.scss` file:
 
 ```css
-* { color red !important }
+* { color: red !important };
 ```
 
-#### SASS variables
+Note that sass is less tolerant of errors than regular css. Try `* { color red !important };`.
 
-```sass
-$basil-green: #88a308;
-$breakpoint-med: 640px;
-```
+#### SASS Variables
 
-Usage example:
+E.g.:
 
 ```css
-* { color: $basil-green }
+$basil-green: #88a308;
+$breakpoint-med: 640px;
 ```
 
 Here is a larger example including variables for breakpoints and more:
@@ -240,6 +238,12 @@ $gray-010: rgba(51,51,51,0.10);
 
 Add the above to a new `imports/_variables.scss` file and include it at the top of `styles.scss`: `@import 'imports/variables';`.
 
+Usage example:
+
+```css
+* { color: $basil-green !important };
+```
+
 #### SASS nesting 
 
 Sass will let you nest your CSS selectors in a way that follows the same visual hierarchy of your HTML. Be aware that overly nested rules will result in over-qualified CSS that could prove hard to maintain and is generally considered bad practice.
@@ -248,17 +252,13 @@ One of the best things about nesting in SASS is how it allows you to simplify me
 
 #### SASS Partials and Imports
 
-Allow you to create separate function or feature specific style sheets using [imports](https://sass-lang.com/guide#topic-4) and helps maintain a large code base.
+Sass partials allow you to create separate function or feature specific style sheets using [imports](https://sass-lang.com/guide#topic-4) and helps maintain a large code base.
 
 Examples [Bootstrap](https://getbootstrap.com) and its [SASS roots](https://github.com/twbs/bootstrap-sass)
 
-Create `imports/_nav.scss` and cut the nested nav related material from `_base.scss` into it. Add it to the main stylesheet.
+Create `imports/_nav.scss` and cut the nested **nav** related material from `_base.scss` into it. Add it to the main stylesheet.
 
-<!-- * Create `scss/imports`
-* Cut and copy the newly nested code for header into a new document `scss/imports/_header.scss`
-* import it into `styles.scss` by adding `@import "imports/header";` to that file -->
-
-Note the underscore in the include.
+Note the underscore in the include. If you add an underscore to the start of the file name, Sass won’t compile it. So, if you don’t want `colors.scss` to compile to `colors.css`, name the file `_colors.scss` instead. Files named this way are called partials in Sass terminology.
 
 Create `imports/_header.scss` and add the following (remove the header related material from `_base.scss `).
 
@@ -355,7 +355,7 @@ Note that in our document these are only used in wide screens:
 }
 ```
 
-We have some problems here due to the use of percentages (`20% * 5 + the grid-gap`).
+We have some width problems here due to the use of percentages (`20% * 5 + the grid-gap`).
 
 Create a new partial `_layout.scss` and cut and paste the following code into it.
 
@@ -390,24 +390,24 @@ footer {
 }
 ```
 
-We edited it to use `fr` - fractions:
+Edit it to use `fr` - fractional units:
 
 ```css
 @media (min-width: 600px){
-    .content {
-        display: grid;
-        grid-template-columns: 3fr 2fr;
-        grid-column-gap: 1rem;
-    }
-    article {
-        grid-column-start: 1;
-    }
-    aside {
-        grid-column-start: 2;
-        background-color: #f5faef;
-        box-shadow: -4px 0px 4px #ddd;
-        padding: 0.5rem;
-    } 
+  .content {
+      display: grid;
+      grid-template-columns: 3fr 2fr;
+      grid-column-gap: 1rem;
+  }
+  article {
+      grid-column-start: 1;
+  }
+  aside {
+      grid-column-start: 2;
+      background-color: #f5faef;
+      box-shadow: -4px 0px 4px #ddd;
+      padding: 0.5rem;
+  } 
 }
 ```
 
@@ -470,7 +470,6 @@ aside {
     grid-column: span 2;
     background-color: #f5faef;
     box-shadow: -4px 0px 4px #ddd;
-    padding: 0.5rem;
   } 
   footer {
     grid-area: footer;
@@ -482,6 +481,14 @@ footer {
   padding: 1rem;
   border-radius: 0 0 4px 4px;
   margin-bottom: 2rem;
+}
+```
+
+Try:
+
+```css
+header {
+  grid-area: content;
 }
 ```
 
@@ -845,7 +852,7 @@ div.textContent = 'Nice work, dude!';
 div
 ```
 
-### append 
+### Appending Content
 
 After you create an element, you need a way to add it to your page. JavaScript provides a handful of methods you can use to add an element before, after, or within some other element in the DOM.
 
