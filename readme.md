@@ -1,11 +1,11 @@
 # VI - Basilica! JavaScript and SASS
 
-**Important:** DO NOT DOWNLOAD THE ZIP. See the command line instructions below.
+**Important: DO NOT DOWNLOAD THE ZIP.** See the command line instructions below.
 
 ## Homework
  
 * Change the popover behavior so it displays a different message for each of the three navigation buttons
-* Develop a final project proposal
+* Develop a final project proposal - focus on the content you will need
 
 ## Command Line
 
