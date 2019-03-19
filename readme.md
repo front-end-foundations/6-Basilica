@@ -845,7 +845,7 @@ div.textContent = 'Nice work, dude!';
 div
 ```
 
-### append 
+### Appending Content
 
 After you create an element, you need a way to add it to your page. JavaScript provides a handful of methods you can use to add an element before, after, or within some other element in the DOM.
 
